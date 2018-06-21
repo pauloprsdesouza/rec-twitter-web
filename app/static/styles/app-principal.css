@@ -1,0 +1,333 @@
+.badge,
+.btn,
+.progress {
+  border-radius: 0px;
+}
+
+body {
+  background-color: #f4f4f4;
+  font-family: 'Archivo', sans-serif;
+  line-height: 1.5;
+}
+
+/* @media(max-width: 599px) {
+    .navbar {
+        margin-bottom: 0px;
+        background-color: transparent;
+    }
+} */
+
+.no-margim {
+  margin: 0px !important;
+}
+
+.font-size-lg {
+  font-size: 3.5em;
+}
+
+.font-size-md {
+  font-size: 2.5em;
+}
+
+.font-size-sm {
+  font-size: 1.5em;
+}
+
+.font-size-xs {
+  font-size: 0.5em;
+}
+
+.badge-white {
+  color: #252525;
+  background-color: #FFFFFF;
+  margin-top: 25px;
+}
+
+.text-white {
+  color: #FFFFFF !important;
+}
+
+.text-area-email {
+  height: 125px;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+  line-height: 60px;
+  /* Vertically center the text there */
+  background-color: #252525;
+}
+
+/* Custom page CSS
+  -------------------------------------------------- */
+
+/* Not required for template or sticky footer method. */
+
+main.container {
+  padding: 60px 15px 15px;
+  background-color: #FFFFFF !important;
+}
+
+.footer>.container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
+.fancy {
+  text-align: center;
+}
+
+.fancy span:before,
+.fancy span:after {
+  content: "";
+  display: inline-flex;
+  border-top: 2px solid;
+  width: 80px;
+  vertical-align: middle;
+}
+
+.fancy span:before {
+  right: 100%;
+  margin-right: 15px;
+}
+
+.fancy span:after {
+  left: 100%;
+  margin-left: 15px;
+}
+
+@media(max-width: 700px) {
+  .display-4 {
+    text-align: center;
+  }
+  .fancy span:before,
+  .fancy span:after {
+    content: "";
+    display: block;
+    border-top: none;
+    width: 80px;
+  }
+}
+
+.banner.banner-white {
+  background-color: #FFFFFF;
+}
+
+.banner.banner-gray {
+  background-color: #fafafa;
+}
+
+.banner {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  z-index: 1;
+}
+
+.banner>.banner-heading {
+  padding-top: 30px;
+  padding-bottom: 60px;
+}
+
+.banner>.banner-body {}
+
+.banner>.banner-footer {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.banner.banner-xs {
+  min-height: 50px;
+}
+
+.banner.banner-sm {
+  min-height: 100px;
+}
+
+.banner.banner-md {
+  min-height: 300px;
+}
+
+.banner.banner-lg {
+  min-height: 500px;
+}
+
+.banner-blue {
+  background-color: #573c7a;
+  color: #FFFFFF;
+}
+
+.banner-dark {
+  background-color: #252525;
+  color: #FFFFFF;
+}
+
+.banner-dark-gray {
+  background-color: #252525;
+  color: #FFFFFF;
+}
+
+.banner-backdrop {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  width: 100%;
+  position: relative;
+  padding: 35px;
+  color: #FFFFFF;
+}
+
+.banner-backdrop.home {
+  background-image: url('http://www.seekwallpaper.com/seekpics/big/104/1041032_minimalist-desktop-wallpaper-hd.jpg');
+  color: #666666;
+}
+
+.banner-backdrop.think {
+  background-image: url("https://inforchannel.com.br/wp-content/uploads/2017/04/data-analytics.jpg");
+}
+
+.banner-backdrop.lets {
+  background-image: url("https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/SsLYSh45lizrfzvep/videoblocks-man-hand-writing-in-daily-notebook-on-wooden-table-background-with-office-details-man-putting-on-glasses-and-noting-creative-background-top-view-chroma-key_szau_ypbre_thumbnail-full01.png")
+}
+
+.banner-backdrop.home>.banner-heading {
+  margin-top: 10%;
+}
+
+.banner-backdrop.backdrop-opace::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(009, 009, 009, 0.8);
+  z-index: -999;
+}
+
+.banner-backdrop.backdrop-opace1::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: -999;
+}
+
+.skills-category {
+  margin-bottom: 25px;
+}
+
+.skills-category>.badge:hover>.badge-text {
+  display: none;
+  min-width: 120px;
+}
+
+.skills-category>.badge:hover>.badge-percent {
+  display: block;
+  min-width: 120px;
+}
+
+.smiley {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  background-color: #7c7c7c
+}
+
+.smiley>img {
+  height: 20px;
+}
+
+/* .smiley-1 {
+  background-color: #E4403E;
+}
+
+.smiley-2 {
+  background-color: #E6763D;
+}
+
+.smiley-3 {
+  background-color: #F4BE29;
+}
+
+.smiley-4 {
+  background-color: #85D68A;
+}
+
+.smiley-5 {
+  background-color: #4AB64C;
+} */
+
+.active-1{
+  background-color: #E4403E !important;
+}
+
+.active-2{
+  background-color: #E6763D !important;
+}
+
+.active-3{
+  background-color: #F4BE29 !important;
+}
+
+.active-4{
+  background-color: #85D68A !important;
+}
+
+.active-5{
+  background-color: #4AB64C !important;
+}
+
+
+.smiley-1:hover {
+  background-color: #E4403E !important;
+}
+
+.smiley-2:hover {
+  background-color: #E6763D !important;
+}
+
+.smiley-3:hover {
+  background-color: #F4BE29 !important;
+}
+
+.smiley-4:hover {
+  background-color: #85D68A !important;
+}
+
+.smiley-5:hover {
+  background-color: #4AB64C !important;
+}
