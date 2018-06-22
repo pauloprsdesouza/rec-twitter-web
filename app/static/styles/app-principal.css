@@ -82,7 +82,10 @@ body {
 
 main.container {
   padding: 60px 15px 15px;
-  background-color: #FFFFFF !important;
+}
+
+.background-white{
+  background-color: #FFFFFF;
 }
 
 .footer>.container {

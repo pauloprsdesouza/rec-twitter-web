@@ -97,24 +97,70 @@
       <div class="col">
         <div class="card">
           <div class="card-header">
-            Recommendations Refused
+            Recommendations Accepted
           </div>
           <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th class="text-center">Recommended</th>
+                  <th class="text-center">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="recommendation in recommendationsAccepted" :key="recommendation.id">
+                  <td><img class="rounded-circle img-fluid" width="30" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}</td>
+                  <td class="text-center">
+                    <span class="badge badge-success" v-if="recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate">Follow</span>
+                    <span class="badge badge-danger" v-if="!recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate">Unfollow</span>
+                  </td>
+                  <td class="text-center">{{recommendation.acceptanceDate}}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3">
+                    <pagination-component :pagination-begin="getRecommendationAccepted" :update="getRecommendationAccepted" :current-pagination="paginationAccepted" :limit="5"></pagination-component>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
         </div>
       </div>
       <div class="col">
         <div class="card">
           <div class="card-header">
-            Recommendations Accepted
+            Recommendations Canceled
           </div>
           <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
-            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th class="text-center">Recommended</th>
+                  <th class="text-center">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="recommendation in recommendationsRefused" :key="recommendation.id">
+                  <td><img class="rounded-circle img-fluid" width="30" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}</td>
+                  <td class="text-center">
+                    <span class="badge badge-success" v-if="recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate">Follow</span>
+                    <span class="badge badge-danger" v-if="!recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate">Unfollow</span>
+                  </td>
+                  <td class="text-center">{{recommendation.cancelDate}}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="3">
+                    <pagination-component :pagination-begin="getRecommendationRefused" :update="getRecommendationRefused" :current-pagination="paginationRefused" :limit="5"></pagination-component>
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
           </div>
         </div>
       </div>
@@ -123,13 +169,21 @@
 </template>
 
 <script>
+import PaginationComponent from "../components/commons/PaginationComponent";
 export default {
   name: "Dashboard",
   data() {
     return {
       userData: {},
-      loading: false
+      loading: false,
+      recommendationsAccepted: [],
+      recommendationsRefused: [],
+      paginationRefused: {},
+      paginationAccepted: {}
     };
+  },
+  components: {
+    PaginationComponent
   },
   methods: {
     getResume: function() {
@@ -147,6 +201,27 @@ export default {
         .then(function(response) {
           this.getResume();
           this.loading = false;
+        });
+    },
+    getRecommendationAccepted: function() {
+      console.log(this.paginationAccepted);
+      this.$http
+        .post("http://localhost:8080/recommendations/accepted", {
+          pagination: this.paginationAccepted
+        })
+        .then(function(response) {
+          this.recommendationsAccepted = response.body.recommendations;
+          this.paginationAccepted = response.body.pagination;
+        });
+    },
+    getRecommendationRefused: function() {
+      this.$http
+        .post("http://localhost:8080/recommendations/refused", {
+          pagination: this.paginationRefused
+        })
+        .then(function(response) {
+          this.recommendationsRefused = response.body.recommendations;
+          this.paginationRefused = response.body.pagination;
         });
     }
   },
