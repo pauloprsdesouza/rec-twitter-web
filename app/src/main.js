@@ -40,6 +40,14 @@ Vue.http.interceptors.push((request, response) => {
     if (response.status === 401) {
       window.location.href = '/unauthorized';
     }
+
+    if(response.status === 0){
+      window.location.href = '/';
+    }
+
+    if(response.status === 500){
+      window.location.href = '/internal-error';
+    }
   });
 });
 

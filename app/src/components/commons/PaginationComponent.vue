@@ -1,5 +1,5 @@
 <template>
-  <nav aria-label="Page navigation example">
+  <nav aria-label="Page navigation example" v-if="pagination.totalPages > 1">
     <ul class="pagination justify-content-center">
       <li class="page-item" :class="{'disabled': pagination.page === 1}">
         <button class="page-link" v-on:click="previous()">Previous</button>
@@ -54,7 +54,7 @@ export default {
       totalPages: 1,
       limit: typeof this.limit === "number" ? this.limit : 10
     };
-
+    
     this.paginationBegin();
   }
 };

@@ -81,7 +81,7 @@ body {
 /* Not required for template or sticky footer method. */
 
 main.container {
-  padding: 60px 15px 15px;
+  padding: 25px 15px 15px;
 }
 
 .background-white{
@@ -274,26 +274,6 @@ code {
   height: 20px;
 }
 
-/* .smiley-1 {
-  background-color: #E4403E;
-}
-
-.smiley-2 {
-  background-color: #E6763D;
-}
-
-.smiley-3 {
-  background-color: #F4BE29;
-}
-
-.smiley-4 {
-  background-color: #85D68A;
-}
-
-.smiley-5 {
-  background-color: #4AB64C;
-} */
-
 .active-1{
   background-color: #E4403E !important;
 }
@@ -314,7 +294,6 @@ code {
   background-color: #4AB64C !important;
 }
 
-
 .smiley-1:hover {
   background-color: #E4403E !important;
 }
@@ -333,4 +312,26 @@ code {
 
 .smiley-5:hover {
   background-color: #4AB64C !important;
+}
+
+.error-page{
+  color: #666666;
+}
+
+.error-page > span {
+  border-top: solid 3px #666666;
+  font-size: 6em !important;
+}
+
+.error-page > p {
+  font-size: 1.5em !important;
+}
+
+.error-page > .http-status{
+  font-size: 15em !important;
+}
+
+.jumbotron{
+  padding: 1em 2em;
+  background-color: #e9e9e9;
 }

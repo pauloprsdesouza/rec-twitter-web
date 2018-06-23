@@ -6,35 +6,30 @@
                 <div class="col">
                     <div class="form-group">
                         <label>User</label>
-                        <input class="form-control" />
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label>Recommended</label>
-                        <select class="form-control">
-                            <option>Select</option>
-                            <option value="F">Follow</option>
-                            <option value="U">Unfollow</option>
-                        </select>
+                        <input class="form-control" v-model="filter.userName" v-on:keyup.enter="search()"/>
                     </div>
                 </div>
             </div>
-
-            <button type="button" class="btn btn-outline-primary float-right" v-on:click="save()">Search</button>
+            <button type="button" v-bind:disabled="loading" class="btn btn-outline-primary float-right" v-on:click="search()">
+                <span v-if="loading">
+                    <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading</span>
+                <span v-if="!loading">Search</span>
+            </button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-  props: ["title", "message", "callback"],
+  props: ["callback", "loading"],
   data() {
-    return {};
+    return {
+      filter: { toFollow: null, userName: null }
+    };
   },
   methods: {
-    save: function() {
-      this.callback();
+    search: function() {
+      this.callback(this.filter);
     }
   }
 };

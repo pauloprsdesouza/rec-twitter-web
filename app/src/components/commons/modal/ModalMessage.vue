@@ -14,8 +14,8 @@
                     {{message}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" v-on:click="save()">Save changes</button>
+                    <button type="button" class="btn btn-secondary" v-on:click="no()">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="yes()">Yes</button>
                 </div>
             </div>
         </div>
@@ -24,13 +24,20 @@
 
 <script>
 export default {
-  props: ["title", "message", "callback"],
+  props: ["title", "message", "callbackYes", "callbackNo"],
   data() {
     return {};
   },
   methods: {
-    save: function() {
-      this.callback();
+    yes: function() {
+      this.callbackYes();
+    },
+    no: function() {
+      if (this.callbackNo === Function) {
+        this.callbackNo();
+      } else {
+        $("#modalMessage").modal("hide");
+      }
     }
   }
 };

@@ -1,76 +1,74 @@
 <template>
   <div id="Recommendations">
-    <div class="alert alert-dismissible fade show" :class="{'alert-success': message.success, 'alert-danger': message.danger}" v-if="message.success || message.error " role="alert">
-      <span v-if="message.success">{{message.success}}</span>
+    <div class="alert alert-dismissible fade show" :class="{'alert-success': message.info, 'alert-danger': message.danger}" v-if="message.info || message.error " role="alert">
+      <span v-if="message.info">{{message.info}}</span>
       <span v-if="message.error">{{message.error}}</span>
       <button type="button" class="close" v-on:click="clearMessage()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-
-    <div class="mb-5">
-      <h1 class="display-4">Recommendations</h1>
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-4">Recommendations</h1>
+        <p class="lead">Here are the recommendations over the tweets extracted from his timeline.</p>
+      </div>
     </div>
     <div class="mb-3">
-      <filter-recommendations></filter-recommendations>
+      <filter-recommendations v-bind:callback="getAll" :loading="loading"></filter-recommendations>
     </div>
     <div class="background-white p-2 border">
       <div class="mb-3">
-        <button class="btn btn-primary" v-bind:disabled="loading" v-on:click="generate()">
-          <span v-if="loading">
-            <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading</span>
-          <span v-if="!loading">
-            <i class="fas fa-plus-circle"></i>&nbsp;New recommendations</span>
+        <button id="btnPopoverRecommendations" class="btn btn-primary" v-on:click="generate()" v-bind:disabled="loading" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, click here to generate recommendatons.">
+          <i class="fas fa-plus-circle"></i>&nbsp;Generate Recommendations
         </button>
       </div>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th class="text-center">Recommended</th>
-            <th class="text-center">Evaluated</th>
-            <th class="text-center">Refused</th>
-            <th class="text-center">Accepted</th>
-            <th class="text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(recommendation, index) in recommendations" :key="index">
-            <td><img class="rounded-circle img-fluid" width="30" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}</td>
-            <td class="text-center">
-              <button class="btn btn-success btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, true)" v-if="recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate">Follow</button>
-              <button class="btn btn-danger btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, false)" v-if="!recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate">Unfollow</button>
-            </td>
-            <td class="text-center">
-              <span class="badge badge-dark" v-if="recommendation.evaluationDate">{{recommendation.evaluationDate}}</span>
-              <span v-if="!recommendation.evaluationDate">-</span>
-            </td>
-            <td class="text-center">
-              <span class="badge badge-dark" v-if="recommendation.cancelDate">{{recommendation.cancelDate}}</span>
-              <span v-if="!recommendation.cancelDate">-</span>
-            </td>
-            <td class="text-center">
-              <span class="badge badge-dark" v-if="recommendation.acceptanceDate">{{recommendation.acceptanceDate}}</span>
-              <span v-if="!recommendation.acceptanceDate">-</span>
-            </td>
-            <td class="text-center">
-              <button class="btn btn-outline-danger btn-sm" v-on:click="showModalMessageRefuse(recommendation)" v-bind:disabled="recommendation.cancelDate">Refuse</button>
-              <button class="btn btn-outline-primary btn-sm" data-toggle="modal" v-on:click="selectRecommendation(recommendation)">Evaluate</button>
-              <button class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#modalMessage">Details</button>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr>
-            <td colspan="6" v-if="!recommendations.length == 0">
-              <pagination-component :pagination-begin="getAll" :update="getAll" :current-pagination="pagination"></pagination-component>
-            </td>
-            <td colspan="6" v-if="recommendations.length == 0" class="text-center">
-              <em>No recommendations registered</em>
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th class="text-center">Recommended</th>
+              <th class="text-center">Evaluated</th>
+              <th class="text-center">Accepted</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(recommendation, index) in recommendations" :key="index">
+              <td><img class="rounded-circle img-fluid" width="35" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}
+                <span class="badge badge-dark" v-if="recommendation.isNew">New</span>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-success btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, true)" v-if="recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Follow</button>
+                <button class="btn btn-danger btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, false)" v-if="!recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Unfollow</button>
+              </td>
+              <td class="text-center">
+                <span class="badge badge-dark" v-if="recommendation.evaluationDate">{{recommendation.evaluationDate}}</span>
+                <span v-if="!recommendation.evaluationDate">-</span>
+              </td>
+              <td class="text-center">
+                <span class="badge badge-dark" v-if="recommendation.acceptanceDate">{{recommendation.acceptanceDate}}</span>
+                <span v-if="!recommendation.acceptanceDate">-</span>
+              </td>
+              <td class="text-center">
+                <button class="btn btn-outline-danger btn-sm" v-on:click="showModalMessageRefuse(recommendation)" v-bind:disabled="recommendation.cancelDate">Refuse</button>
+                <button class="btn btn-outline-primary btn-sm" v-on:click="showModalEvaluation(recommendation)">Evaluate</button>
+                <button class="btn btn-outline-secondary btn-sm" v-on:click="showModalDetails(recommendation)">Details</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6">
+                <pagination-component :pagination-begin="getAll" :update="getAll" :current-pagination="pagination"></pagination-component>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <h4 class="text-center" v-if="recommendations == 0">
+        <em>Without recommendations.</em>
+      </h4>
     </div>
     <div class="modal fade" id="modalEvaluation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -105,21 +103,22 @@
         </div>
       </div>
     </div>
-    <modal-message v-bind:title="modal.title" v-bind:callback="modal.callback" v-bind:message="modal.message"></modal-message>
+    <modal-message v-bind:title="modal.title" v-bind:callback-yes="modal.callback" v-bind:message="modal.message"></modal-message>
+    <modal-details-recommendation title="" :recommendation="recommendation"></modal-details-recommendation>
   </div>
 </template>
 <script>
-import ModalMessage from "../components/recommendations/modal/ModalMessage";
-import FilterRecommendations from "../components/recommendations/partial/FilterRecommendations";
-import PaginationComponent from "../components/commons/PaginationComponent";
+import ModalMessage from "../../components/commons/modal/ModalMessage";
+import FilterRecommendations from "./partial/FilterRecommendations";
+import PaginationComponent from "../../components/commons/PaginationComponent";
+import ModalDetailsRecommendation from "./modal/ModalDetailsRecommendation";
 
 export default {
-  name: "Recommendations",
   data() {
     return {
       modal: { title: null, callback: Function, message: null },
       loading: false,
-      message: { error: null, success: null },
+      message: { error: null, info: null },
       questions: [],
       recommendations: [],
       recommendation: { user: { name: null } },
@@ -130,7 +129,8 @@ export default {
   components: {
     ModalMessage,
     FilterRecommendations,
-    PaginationComponent
+    PaginationComponent,
+    ModalDetailsRecommendation
   },
   methods: {
     clearMessage: function() {
@@ -139,11 +139,14 @@ export default {
     createFriendship: function(recommendation) {
       this.$http
         .get(
-          "http://localhost:8080/twitter/createFriendship?idRecommendation=" +
+          "http://localhost:8080/twitter/createfriendship?idRecommendation=" +
             this.recommendation.id
         )
-        .then(function(response) {
-          this.message.success = response.bodyText;
+        .then(response => response.text())
+        .then(message => {
+          this.message.info = response.bodyText;
+        })
+        .finally(() => {
           $("#modalMessage").modal("hide");
           this.getAll();
         });
@@ -154,8 +157,11 @@ export default {
           "http://localhost:8080/twitter/destroyfriendship?idRecommendation=" +
             this.recommendation.id
         )
-        .then(function(response) {
-          this.message.success = response.bodyText;
+        .then(response => response.text())
+        .then(message => {
+          this.message.info = response.bodyText;
+        })
+        .finally(() => {
           $("#modalMessage").modal("hide");
           this.getAll();
         });
@@ -164,20 +170,37 @@ export default {
       this.loading = true;
       this.$http
         .get("http://localhost:8080/recommendations/generate")
-        .then(function(response) {
+        .then(response => {
           this.getAll();
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
-    getAll: function() {
+    getAll: function(filter) {
       this.loading = true;
       this.$http
         .post("http://localhost:8080/recommendations/getAll", {
-          pagination: this.pagination
+          pagination: this.pagination,
+          toFollow: filter ? filter.toFollow : null,
+          userName: filter ? filter.userName : null
         })
-        .then(function(response) {
-          this.recommendations = response.body.recommendations;
-          this.pagination = response.body.pagination;
+        .then(response => response.json())
+        .then(json => {
+          this.recommendations = json.recommendations;
+          this.pagination = json.pagination;
+
+          if (this.recommendations.length == 0) {
+            $("#btnPopoverRecommendations").popover("show");
+          } else {
+            $("#btnPopoverRecommendations").popover("hide");
+          }
+        })
+        .catch(response => response.text())
+        .then(message => {
+          this.message.error = message;
+        })
+        .finally(() => {
           this.loading = false;
         });
     },
@@ -205,18 +228,28 @@ export default {
           "http://localhost:8080/evaluations/recommendation?idRecommendation=" +
             this.recommendation.id
         )
-        .then(function(response) {
-          console.info(response);
+        .then(response => response.text())
+        .then(message => {
+          this.message.info = message;
+        })
+        .catch(response => response.text())
+        .then(message => {
+          this.message.error = message;
         });
     },
     getImgUrl(index) {
-      return require("../assets/note-" + index + ".png");
+      return require("../../assets/note-" + index + ".png");
     },
     getQuestions: function() {
       this.$http
         .get("http://localhost:8080/evaluations/questions")
-        .then(function(response) {
-          this.questions = response.body;
+        .then(response => response.json())
+        .then(json => {
+          this.questions = json;
+        })
+        .catch(reseponse => response.text())
+        .then(message => {
+          this.message.error = message;
         });
     },
     refuse: function(recommendation) {
@@ -225,10 +258,18 @@ export default {
           "http://localhost:8080/recommendations/refuse?idRecommendation=" +
             this.recommendation.id
         )
-        .then(function(response) {
-          this.message.success = response.bodyText;
-          $("#modalMessage").modal("hide");
+        .then(response => response.text())
+        .then(message => {
+          this.message.info = message;
+
           this.getAll();
+        })
+        .catch(reseponse => response.text())
+        .then(message => {
+          this.message.error = message;
+        })
+        .finally(() => {
+          $("#modalMessage").modal("hide");
         });
     },
     saveEvaluation: function() {
@@ -239,12 +280,18 @@ export default {
           answers: this.recommendation.questions,
           idRecommendation: this.recommendation.id
         })
-        .then(function(response) {
-          this.message.success = response.bodyText;
-
-          $("#modalEvaluation").modal("hide");
+        .then(response => response.text())
+        .then(message => {
+          this.message.info = message;
 
           this.getAll();
+        })
+        .catch(reseponse => response.text())
+        .then(message => {
+          this.message.error = message;
+        })
+        .finally(() => {
+          $("#modalEvaluation").modal("hide");
         });
     },
     setClassificationToQuestion: function(question, classification) {
@@ -271,6 +318,14 @@ export default {
     },
     selectRecommendation: function(recommendation) {
       this.recommendation = recommendation;
+    },
+    showModalDetails: function(recommendation) {
+      this.selectRecommendation(recommendation);
+
+      $("#modalDetails").modal("show");
+    },
+    showModalEvaluation: function(recommendation) {
+      this.selectRecommendation(recommendation);
 
       if (!recommendation.questions) {
         var questions = JSON.parse(JSON.stringify(this.questions));
@@ -288,7 +343,8 @@ export default {
             "http://localhost:8080/evaluations/recommendation?idRecommendation=" +
               recommendation.id
           )
-          .then(function(response) {
+          .then(response => response.json())
+          .then(json => {
             recommendation.questions.forEach(question => {
               response.body.forEach(questionC => {
                 if (questionC.idQuestion === question.idQuestion) {
@@ -303,8 +359,13 @@ export default {
                 }
               });
             });
+          })
+          .catch(reseponse => response.text())
+          .then(message => {
+            this.message.error = message;
           });
       }
+
       this.evaluationValidated = this.evaluationIsCompleted();
 
       $("#modalEvaluation").modal("show");
