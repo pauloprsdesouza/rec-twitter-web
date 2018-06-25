@@ -87,12 +87,12 @@ export default {
         .then(message => {
           this.message.error = message;
         });
-    },
-    mounted() {
-      $("#modalRecommendationsAccepted").on("show.bs.modal", () => {
-        this.getRecommendations();
-      });
     }
+  },
+  mounted() {
+    $("#modalRecommendationsAccepted").on("show.bs.modal", () => {
+      this.getRecommendations();
+    });
   }
 };
 </script>

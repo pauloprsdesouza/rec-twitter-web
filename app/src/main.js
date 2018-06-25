@@ -10,7 +10,7 @@ Vue.config.productionTip = false;
 Vue.use(VueResource)
 
 Vue.prototype.$APIUri = function (path) {
-  // return 'http://rectwitterapi-env.qvp8mkewsj.sa-east-1.elasticbeanstalk.com' + path;
+   //return 'http://rectwitterapi-env.qvp8mkewsj.sa-east-1.elasticbeanstalk.com' + path;
    return 'http://localhost:8080' + path;
 }
 

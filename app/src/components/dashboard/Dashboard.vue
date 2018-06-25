@@ -207,26 +207,26 @@ export default {
           this.loading = false;
         });
     },
-    getRecommendationAccepted: function() {
-      this.loadingRecommendationAccepted = true;
+    // getRecommendationAccepted: function() {
+    //   this.loadingRecommendationAccepted = true;
 
-      this.$http
-        .post(this.$APIUri("/recommendations/accepted"), {
-          pagination: this.paginationAccepted
-        })
-        .then(response => response.json())
-        .then(json => {
-          this.recommendationsAccepted = json.recommendations;
-          this.paginationAccepted = json.pagination;
-        })
-        .catch(response => response.text())
-        .then(message => {
-          this.message.error = message;
-        })
-        .finally(() => {
-          this.loadingRecommendationAccepted = false;
-        });
-    }
+    //   this.$http
+    //     .post(this.$APIUri("/recommendations/accepted"), {
+    //       pagination: this.paginationAccepted
+    //     })
+    //     .then(response => response.json())
+    //     .then(json => {
+    //       this.recommendationsAccepted = json.recommendations;
+    //       this.paginationAccepted = json.pagination;
+    //     })
+    //     .catch(response => response.text())
+    //     .then(message => {
+    //       this.message.error = message;
+    //     })
+    //     .finally(() => {
+    //       this.loadingRecommendationAccepted = false;
+    //     });
+    // }
   },
   mounted() {
     this.getResume();
