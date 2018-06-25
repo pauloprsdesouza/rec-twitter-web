@@ -7,9 +7,9 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron">
       <div class="container">
-        <h1 class="display-4">Dashboard</h1>
+        <h1 class="display-5">Dashboard</h1>
         <p class="lead">This show the information over his account.</p>
       </div>
     </div>
@@ -46,7 +46,9 @@
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                  <i class="fab fa-twitter text-primary"></i> &nbsp;{{userData.totalTweets}}
+                  <i class="fab fa-twitter text-primary"></i> &nbsp;
+                  <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
+                  <span v-if="!loading">{{userData.totalTweets}}</span>
                 </blockquote>
               </div>
             </div>
@@ -58,7 +60,9 @@
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                  <i class="fas fa-users"></i>&nbsp;{{userData.totalFollowings}}
+                  <i class="fas fa-users"></i>&nbsp;
+                  <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
+                  <span v-if="!loading">{{userData.totalFollowings}}</span>
                 </blockquote>
               </div>
             </div>
@@ -70,7 +74,9 @@
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                  <i class="fas fa-users"></i>&nbsp;{{userData.totalFollowers}}
+                  <i class="fas fa-users"></i>&nbsp;
+                  <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
+                  <span v-if="!loading">{{userData.totalFollowers}}</span>
                 </blockquote>
               </div>
             </div>
@@ -82,8 +88,9 @@
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                  <i class="far fa-heart text-danger"></i>
-                  &nbsp;{{userData.totalLikes}}
+                  <i class="far fa-heart text-danger"></i>&nbsp;
+                  <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
+                  <span v-if="!loading">{{userData.totalLikes}}</span>
                 </blockquote>
               </div>
             </div>
@@ -95,7 +102,9 @@
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                  <i class="fas fa-retweet text-success"></i>&nbsp;{{userData.totalRetweets}}
+                  <i class="fas fa-retweet text-success"></i>&nbsp;
+                  <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
+                  <span v-if="!loading">{{userData.totalRetweets}}</span>
                 </blockquote>
               </div>
             </div>
@@ -107,7 +116,9 @@
               </div>
               <div class="card-body">
                 <blockquote class="blockquote mb-0">
-                  <i class="far fa-comment text-info"></i>&nbsp;{{userData.totalReplies}}
+                  <i class="far fa-comment text-info"></i>&nbsp;
+                  <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
+                  <span v-if="!loading">{{userData.totalReplies}}</span>
                 </blockquote>
               </div>
             </div>
@@ -120,7 +131,7 @@
       <div class="card-body">
         <h5 class="card-title">Frequency of the Keywords</h5>
         <h6 class="card-subtitle mb-2 text-muted">Tweet's keywords extracted from the timeline for you better understand the approached context.</h6>
-        <words-cloud :key-words="words" :text="textEmptyTweet"></words-cloud>
+        <words-cloud :key-words="words" :text="textEmptyTweet" :loading="loading"></words-cloud>
       </div>
     </div>
     <modal-recommendations-refused></modal-recommendations-refused>
@@ -154,8 +165,10 @@ export default {
       this.message = { error: null, info: null };
     },
     getResume: function() {
+      this.loading = true;
+
       this.$http
-        .get("http://localhost:8080/twitter/resume")
+        .get(this.$APIUri("/twitter/resume"))
         .then(response => response.json())
         .then(json => {
           this.userData = json.data;
@@ -173,13 +186,16 @@ export default {
         .catch(response => response.text())
         .then(message => {
           this.message.error = message;
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     updateInformations: function() {
       this.loading = true;
 
       this.$http
-        .get("http://localhost:8080/twitter/extract-data")
+        .get(this.$APIUri("/twitter/extract-data"))
         .then(response => {
           this.getResume();
         })
@@ -195,7 +211,7 @@ export default {
       this.loadingRecommendationAccepted = true;
 
       this.$http
-        .post("http://localhost:8080/recommendations/accepted", {
+        .post(this.$APIUri("/recommendations/accepted"), {
           pagination: this.paginationAccepted
         })
         .then(response => response.json())

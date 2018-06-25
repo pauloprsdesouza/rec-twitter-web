@@ -38,7 +38,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="4">
-                                        <pagination-component :pagination-begin="getRecommendations" :update="getRecommendations" :current-pagination="pagination"></pagination-component>
+                                        <pagination-component :update="getRecommendations" :current-pagination="pagination"></pagination-component>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -75,7 +75,7 @@ export default {
     },
     getRecommendations: function() {
       this.$http
-        .post("http://localhost:8080/recommendations/accepted", {
+        .post(this.$APIUri("/recommendations/accepted"), {
           pagination: this.pagination
         })
         .then(response => response.json())
@@ -87,6 +87,11 @@ export default {
         .then(message => {
           this.message.error = message;
         });
+    },
+    mounted() {
+      $("#modalRecommendationsAccepted").on("show.bs.modal", () => {
+        this.getRecommendations();
+      });
     }
   }
 };

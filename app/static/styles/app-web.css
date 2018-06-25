@@ -10,13 +10,6 @@ body {
   line-height: 1.5;
 }
 
-/* @media(max-width: 599px) {
-    .navbar {
-        margin-bottom: 0px;
-        background-color: transparent;
-    }
-} */
-
 .no-margim {
   margin: 0px !important;
 }
@@ -120,19 +113,6 @@ code {
   margin-left: 15px;
 }
 
-@media(max-width: 700px) {
-  .display-4 {
-    text-align: center;
-  }
-  .fancy span:before,
-  .fancy span:after {
-    content: "";
-    display: block;
-    border-top: none;
-    width: 80px;
-  }
-}
-
 .banner.banner-white {
   background-color: #FFFFFF;
 }
@@ -178,7 +158,7 @@ code {
 }
 
 .banner-blue {
-  background-color: #573c7a;
+  background-color: #0275d8;
   color: #FFFFFF;
 }
 

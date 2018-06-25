@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Recommendations from '@/components/recommendations/Recommendations'
-import LoginTwitter from '@/components/LoginTwitter'
+import Portal from '@/components/Portal'
 import About from '@/components/About'
 import Dashboard from '@/components/dashboard/Dashboard'
 import Unauthorized from '@/components/error-pages/Unauthorized'
@@ -14,8 +14,8 @@ export default new Router({
   mode: 'history',
   routes: [{
       path: '/',
-      name: 'LoginTwitter',
-      component: LoginTwitter
+      name: 'Portal',
+      component: Portal
     },
     {
       path: '/dashboard',

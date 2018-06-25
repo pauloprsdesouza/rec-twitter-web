@@ -1,0 +1,30 @@
+@media(max-width: 700px) {
+  .display-4 {
+    text-align: center;
+  }
+  .fancy span:before,
+  .fancy span:after {
+    content: "";
+    display: block;
+    border-top: none;
+    width: 80px;
+  }
+}
+
+@media(max-height: 200px) {
+  .banner-backdrop.home>.banner-heading {
+    margin-top: 5% !important;
+  }
+}
+
+@media(max-height: 400px) {
+  .banner-backdrop.home>.banner-heading {
+    margin-top: 5% !important;
+  }
+}
+
+@media(max-height: 700px) {
+  .banner-backdrop.home>.banner-heading {
+    margin-top: 15% !important;
+  }
+}

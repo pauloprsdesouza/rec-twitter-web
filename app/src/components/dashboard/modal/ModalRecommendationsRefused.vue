@@ -42,7 +42,7 @@
                             <tfoot>
                                 <tr>
                                     <td colspan="4">
-                                        <pagination-component :pagination-begin="getRecommendations" :update="getRecommendations" :current-pagination="pagination"></pagination-component>
+                                        <pagination-component :update="getRecommendations" :current-pagination="pagination"></pagination-component>
                                     </td>
                                 </tr>
                             </tfoot>
@@ -88,7 +88,7 @@ export default {
     },
     getRecommendations: function() {
       this.$http
-        .post("http://localhost:8080/recommendations/refused", {
+        .post(this.$APIUri("/recommendations/refused"), {
           pagination: this.pagination
         })
         .then(response => response.json())
@@ -104,7 +104,7 @@ export default {
     recoverRecommendation: function() {
       this.loading = true;
       this.$http
-        .post("http://localhost:8080/recommendations/recover", {
+        .post(this.$APIUri("/recommendations/recover"), {
           idRecommendation: this.recommendation.id
         })
         .then(response => response.text())
@@ -138,6 +138,11 @@ export default {
 
       $("#modalMessage").modal("show");
     }
+  },
+  mounted() {
+    $("#modalRecommendationsRefused").on("show.bs.modal", () => {
+      this.getRecommendations();
+    });
   }
 };
 </script>

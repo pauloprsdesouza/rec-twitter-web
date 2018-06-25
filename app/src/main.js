@@ -5,17 +5,13 @@ import App from './App'
 import router from './router'
 import VueResource from 'vue-resource'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+
 Vue.use(VueResource)
 
-function getParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, "\\$&");
-  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-    results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, " "));
+Vue.prototype.$APIUri = function (path) {
+  // return 'http://rectwitterapi-env.qvp8mkewsj.sa-east-1.elasticbeanstalk.com' + path;
+   return 'http://localhost:8080' + path;
 }
 
 Vue.http.interceptors.push((request, response) => {
@@ -23,7 +19,7 @@ Vue.http.interceptors.push((request, response) => {
 
   if (window.location.pathname === '/dashboard') {
     token = getParameterByName('token');
-    
+
     if (token) {
       localStorage.setItem("token", token);
     } else {
@@ -41,15 +37,25 @@ Vue.http.interceptors.push((request, response) => {
       window.location.href = '/unauthorized';
     }
 
-    if(response.status === 0){
-      window.location.href = '/';
-    }
+    // if (response.status === 0) {
+    //   window.location.href = '/';
+    // }
 
-    if(response.status === 500){
+    if (response.status === 500) {
       window.location.href = '/internal-error';
     }
   });
 });
+
+function getParameterByName(name, url) {
+  if (!url) url = window.location.href;
+  name = name.replace(/[\[\]]/g, "\\$&");
+  var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+    results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
 
 /* eslint-disable no-new */
 new Vue({

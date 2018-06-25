@@ -9,62 +9,73 @@
     </div>
     <div class="jumbotron jumbotron-fluid">
       <div class="container">
-        <h1 class="display-4">Recommendations</h1>
+        <h1 class="display-5">Recommendations</h1>
         <p class="lead">Here are the recommendations over the tweets extracted from his timeline.</p>
       </div>
     </div>
     <div class="mb-3">
       <filter-recommendations v-bind:callback="getAll" :loading="loading"></filter-recommendations>
     </div>
-    <div class="background-white p-2 border">
-      <div class="mb-3">
-        <button id="btnPopoverRecommendations" class="btn btn-primary" v-on:click="generate()" v-bind:disabled="loading" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, click here to generate recommendatons.">
-          <i class="fas fa-plus-circle"></i>&nbsp;Generate Recommendations
-        </button>
+    <div class="card">
+      <div class="card-header">
+        <div class="row  align-items-center">
+          <div class="col">
+            <span>
+              <i class="fas fa-list"></i>&nbsp;Recommendations List
+            </span>
+          </div>
+          <div class="col">
+            <button id="btnPopoverRecommendations" class="btn btn-primary float-right align-middle" v-on:click="generate()" v-bind:disabled="loading" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, click here to generate recommendatons.">
+              <i class="fas fa-plus-circle"></i>&nbsp;Generate Recommendations
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="table-responsive">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th class="text-center">Recommended</th>
-              <th class="text-center">Evaluated</th>
-              <th class="text-center">Accepted</th>
-              <th class="text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(recommendation, index) in recommendations" :key="index">
-              <td><img class="rounded-circle img-fluid" width="35" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}
-                <span class="badge badge-dark" v-if="recommendation.isNew">New</span>
-              </td>
-              <td class="text-center">
-                <button class="btn btn-success btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, true)" v-if="recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Follow</button>
-                <button class="btn btn-danger btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, false)" v-if="!recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Unfollow</button>
-              </td>
-              <td class="text-center">
-                <span class="badge badge-dark" v-if="recommendation.evaluationDate">{{recommendation.evaluationDate}}</span>
-                <span v-if="!recommendation.evaluationDate">-</span>
-              </td>
-              <td class="text-center">
-                <span class="badge badge-dark" v-if="recommendation.acceptanceDate">{{recommendation.acceptanceDate}}</span>
-                <span v-if="!recommendation.acceptanceDate">-</span>
-              </td>
-              <td class="text-center">
-                <button class="btn btn-outline-danger btn-sm" v-on:click="showModalMessageRefuse(recommendation)" v-bind:disabled="recommendation.cancelDate">Refuse</button>
-                <button class="btn btn-outline-primary btn-sm" v-on:click="showModalEvaluation(recommendation)">Evaluate</button>
-                <button class="btn btn-outline-secondary btn-sm" v-on:click="showModalDetails(recommendation)">Details</button>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="6">
-                <pagination-component :pagination-begin="getAll" :update="getAll" :current-pagination="pagination"></pagination-component>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>User</th>
+                <th class="text-center">Recommended</th>
+                <th class="text-center">Evaluated</th>
+                <th class="text-center">Accepted</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(recommendation, index) in recommendations" :key="index">
+                <td><img class="rounded-circle img-fluid" width="35" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}
+                  <span class="badge badge-dark" v-if="recommendation.isNew">New</span>
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-success btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, true)" v-if="recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Follow</button>
+                  <button class="btn btn-danger btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, false)" v-if="!recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Unfollow</button>
+                </td>
+                <td class="text-center">
+                  <span class="badge badge-dark" v-if="recommendation.evaluationDate">{{recommendation.evaluationDate}}</span>
+                  <span v-if="!recommendation.evaluationDate">-</span>
+                </td>
+                <td class="text-center">
+                  <span class="badge badge-dark" v-if="recommendation.acceptanceDate">{{recommendation.acceptanceDate}}</span>
+                  <span v-if="!recommendation.acceptanceDate">-</span>
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-outline-danger btn-sm" v-on:click="showModalMessageRefuse(recommendation)" v-bind:disabled="recommendation.cancelDate">Refuse</button>
+                  <button class="btn btn-outline-primary btn-sm" v-on:click="showModalEvaluation(recommendation)">Evaluate</button>
+                  <button class="btn btn-outline-secondary btn-sm" v-on:click="showModalDetails(recommendation)">Details</button>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="6">
+                  <pagination-component :pagination-begin="getAll" :update="getAll" :current-pagination="pagination"></pagination-component>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
       <h4 class="text-center" v-if="recommendations == 0">
         <em>Without recommendations.</em>
@@ -139,12 +150,14 @@ export default {
     createFriendship: function(recommendation) {
       this.$http
         .get(
-          "http://localhost:8080/twitter/createfriendship?idRecommendation=" +
-            this.recommendation.id
+          this.$APIUri(
+            "/twitter/createfriendship?idRecommendation=" +
+              this.recommendation.id
+          )
         )
         .then(response => response.text())
         .then(message => {
-          this.message.info = response.bodyText;
+          this.message.info = message;
         })
         .finally(() => {
           $("#modalMessage").modal("hide");
@@ -154,12 +167,14 @@ export default {
     destroyFriendship: function() {
       this.$http
         .get(
-          "http://localhost:8080/twitter/destroyfriendship?idRecommendation=" +
-            this.recommendation.id
+          this.$APIUri(
+            "/twitter/destroyfriendship?idRecommendation=" +
+              this.recommendation.id
+          )
         )
         .then(response => response.text())
         .then(message => {
-          this.message.info = response.bodyText;
+          this.message.info = message;
         })
         .finally(() => {
           $("#modalMessage").modal("hide");
@@ -169,7 +184,7 @@ export default {
     generate: function() {
       this.loading = true;
       this.$http
-        .get("http://localhost:8080/recommendations/generate")
+        .get(this.$APIUri("/recommendations/generate"))
         .then(response => {
           this.getAll();
         })
@@ -180,7 +195,7 @@ export default {
     getAll: function(filter) {
       this.loading = true;
       this.$http
-        .post("http://localhost:8080/recommendations/getAll", {
+        .post(this.$APIUri("/recommendations/getAll"), {
           pagination: this.pagination,
           toFollow: filter ? filter.toFollow : null,
           userName: filter ? filter.userName : null
@@ -189,12 +204,6 @@ export default {
         .then(json => {
           this.recommendations = json.recommendations;
           this.pagination = json.pagination;
-
-          if (this.recommendations.length == 0) {
-            $("#btnPopoverRecommendations").popover("show");
-          } else {
-            $("#btnPopoverRecommendations").popover("hide");
-          }
         })
         .catch(response => response.text())
         .then(message => {
@@ -225,8 +234,10 @@ export default {
     getEvaluationOfRecommendation: function() {
       this.$http
         .get(
-          "http://localhost:8080/evaluations/recommendation?idRecommendation=" +
-            this.recommendation.id
+          this.$APIUri(
+            "/evaluations/recommendation?idRecommendation=" +
+              this.recommendation.id
+          )
         )
         .then(response => response.text())
         .then(message => {
@@ -242,7 +253,7 @@ export default {
     },
     getQuestions: function() {
       this.$http
-        .get("http://localhost:8080/evaluations/questions")
+        .get(this.$APIUri("/evaluations/questions"))
         .then(response => response.json())
         .then(json => {
           this.questions = json;
@@ -255,8 +266,9 @@ export default {
     refuse: function(recommendation) {
       this.$http
         .get(
-          "http://localhost:8080/recommendations/refuse?idRecommendation=" +
-            this.recommendation.id
+          this.$APIUri(
+            "/recommendations/refuse?idRecommendation=" + this.recommendation.id
+          )
         )
         .then(response => response.text())
         .then(message => {
@@ -276,7 +288,7 @@ export default {
       var url = this.recommendation.evaluationDate ? "/update" : "/save";
 
       this.$http
-        .post("http://localhost:8080/evaluations" + url, {
+        .post(this.$APIUri("/evaluations" + url), {
           answers: this.recommendation.questions,
           idRecommendation: this.recommendation.id
         })
@@ -339,10 +351,10 @@ export default {
 
       if (recommendation.evaluationDate) {
         this.$http
-          .get(
-            "http://localhost:8080/evaluations/recommendation?idRecommendation=" +
+          .get(this.$APIUri(
+            "/evaluations/recommendation?idRecommendation=" +
               recommendation.id
-          )
+          ))
           .then(response => response.json())
           .then(json => {
             recommendation.questions.forEach(question => {

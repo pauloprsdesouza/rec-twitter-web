@@ -1,13 +1,17 @@
 <template>
-    <div>
-        <div id="myChart" class="mt-5"></div>
+  <div>
+    <div id="myChart" class="mt-4"></div>
+    <div class="text-center">
+      <i v-if="loading" class="fas fa-spinner fa-pulse fa-4x align-middle"></i>
     </div>
+  </div>
 </template>
 <script>
 export default {
-  props: ["keyWords"],
+  props: ["keyWords", "loading"],
   data() {
-    return {};
+    return {
+    };
   },
   methods: {
     create: function() {
@@ -17,7 +21,7 @@ export default {
           words: this.keyWords,
           minLength: 1,
           ignore: [],
-          maxItems: 70,
+          maxItems: 100,
           aspect: "flow-center",
           rotate: true,
           colorType: "palette",
@@ -73,7 +77,6 @@ export default {
       zingchart.render({
         id: "myChart",
         data: myConfig,
-        height: 400,
         width: "100%"
       });
     }

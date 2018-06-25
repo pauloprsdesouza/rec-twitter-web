@@ -54,8 +54,7 @@ export default {
       totalPages: 1,
       limit: typeof this.limit === "number" ? this.limit : 10
     };
-    
-    this.paginationBegin();
+    if (this.paginationBegin) this.paginationBegin();
   }
 };
 </script>
