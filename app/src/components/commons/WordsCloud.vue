@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div id="myChart" class="mt-4"></div>
+    <div v-if="keyWords" id="myChart"></div>
     <div class="text-center">
-      <i v-if="loading" class="fas fa-spinner fa-pulse fa-4x align-middle"></i>
+      <i v-if="keyWords.length == 0" class="fas fa-spinner fa-pulse fa-4x align-middle"></i>
     </div>
   </div>
 </template>
@@ -11,6 +11,7 @@ export default {
   props: ["keyWords", "loading"],
   data() {
     return {
+      teste: false
     };
   },
   methods: {
@@ -82,8 +83,11 @@ export default {
     }
   },
   watch: {
-    keyWords: function(newKeyWords) {
+    keyWords: function() {
       this.create();
+    },
+    loading: function(load) {
+      this.teste = load;
     }
   }
 };

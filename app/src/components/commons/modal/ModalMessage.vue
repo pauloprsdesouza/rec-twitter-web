@@ -15,7 +15,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" v-on:click="no()">Close</button>
-                    <button type="button" class="btn btn-primary" v-on:click="yes()">Yes</button>
+                    <button type="button" class="btn btn-primary" v-on:click="yes()" v-bind:disabled="loading">
+                        <span v-if="loading">
+                            <i class="fas fa-spinner fa-pulse"></i>&nbsp;Saving</span>
+                        <span v-if="!loading">Yes</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -24,7 +28,7 @@
 
 <script>
 export default {
-  props: ["title", "message", "callbackYes", "callbackNo"],
+  props: ["title", "message", "callbackYes", "callbackNo", "loading"],
   data() {
     return {};
   },

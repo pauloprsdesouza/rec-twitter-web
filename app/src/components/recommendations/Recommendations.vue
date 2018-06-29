@@ -18,15 +18,20 @@
     </div>
     <div class="card">
       <div class="card-header">
-        <div class="row  align-items-center">
+        <div class="row align-items-center">
           <div class="col">
             <span>
               <i class="fas fa-list"></i>&nbsp;Recommendations List
             </span>
           </div>
-          <div class="col">
-            <button id="btnPopoverRecommendations" class="btn btn-primary float-right align-middle" v-on:click="generate()" v-bind:disabled="loading" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, click here to generate recommendatons.">
-              <i class="fas fa-plus-circle"></i>&nbsp;Generate Recommendations
+          <div class="col text-right">
+            <button id="btnRecommendations" class="btn btn-primary align-middle" v-on:click="generate()" v-bind:disabled="generating" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, click here to generate recommendatons.">
+
+              <span v-if="generating">
+                <i class="fas fa-spinner fa-pulse"></i>&nbsp;Generating</span>
+              <span v-if="!generating">
+                <i class="fas fa-plus-circle"></i>&nbsp;Generate Recommendations</span>
+
             </button>
           </div>
         </div>
@@ -62,24 +67,33 @@
                 </td>
                 <td class="text-center">
                   <button class="btn btn-outline-danger btn-sm" v-on:click="showModalMessageRefuse(recommendation)" v-bind:disabled="recommendation.cancelDate">Refuse</button>
-                  <button class="btn btn-outline-primary btn-sm" v-on:click="showModalEvaluation(recommendation)">Evaluate</button>
+                  <button class="btn btn-outline-primary btn-sm" v-on:click="showModalEvaluation(recommendation)" v-bind:disabled="recommendation.loadingEvaluate">
+                    <span v-if="recommendation.loadingEvaluate">
+                      <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading</span>
+                    <span v-if="!recommendation.loadingEvaluate">Evaluate</span>
+                  </button>
                   <button class="btn btn-outline-secondary btn-sm" v-on:click="showModalDetails(recommendation)">Details</button>
                 </td>
               </tr>
             </tbody>
             <tfoot>
-              <tr>
+              <tr v-if="recommendations > 0">
                 <td colspan="6">
-                  <pagination-component :pagination-begin="getAll" :update="getAll" :current-pagination="pagination"></pagination-component>
+                  <pagination-component :update="getAll" :current-pagination="pagination"></pagination-component>
+                </td>
+              </tr>
+              <tr v-if="recommendations == 0">
+                <td colspan="6" class="text-center">
+                  <em class="text-muted" v-if="!loading">Without recommendations.</em>
+                  <span v-if="loading">
+                    <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading
+                  </span>
                 </td>
               </tr>
             </tfoot>
           </table>
         </div>
       </div>
-      <h4 class="text-center" v-if="recommendations == 0">
-        <em>Without recommendations.</em>
-      </h4>
     </div>
     <div class="modal fade" id="modalEvaluation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -109,12 +123,16 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" v-on:click="saveEvaluation()" v-bind:disabled="!evaluationValidated">Save evaluation</button>
+            <button type="button" class="btn btn-primary" v-on:click="saveEvaluation()" v-bind:disabled="!evaluationValidated || loadingEvaluation">
+              <span v-if="loadingEvaluation">
+                <i class="fas fa-spinner fa-pulse"></i>&nbsp;Saving</span>
+              <span v-if="!loadingEvaluation">Save Evaluation</span>
+            </button>
           </div>
         </div>
       </div>
     </div>
-    <modal-message v-bind:title="modal.title" v-bind:callback-yes="modal.callback" v-bind:message="modal.message"></modal-message>
+    <modal-message v-bind:title="modal.title" v-bind:callback-yes="modal.callback" v-bind:message="modal.message" v-bind:loading="loading"></modal-message>
     <modal-details-recommendation title="" :recommendation="recommendation"></modal-details-recommendation>
   </div>
 </template>
@@ -129,6 +147,8 @@ export default {
     return {
       modal: { title: null, callback: Function, message: null },
       loading: false,
+      loadingEvaluation: false,
+      generating: false,
       message: { error: null, info: null },
       questions: [],
       recommendations: [],
@@ -148,6 +168,8 @@ export default {
       this.message = { error: null, success: null };
     },
     createFriendship: function(recommendation) {
+      this.loading = true;
+
       this.$http
         .get(
           this.$APIUri(
@@ -160,11 +182,16 @@ export default {
           this.message.info = message;
         })
         .finally(() => {
+          this.loading = false;
+
           $("#modalMessage").modal("hide");
+
           this.getAll();
         });
     },
     destroyFriendship: function() {
+      this.loading = true;
+
       this.$http
         .get(
           this.$APIUri(
@@ -177,19 +204,24 @@ export default {
           this.message.info = message;
         })
         .finally(() => {
+          this.loading = false;
+
           $("#modalMessage").modal("hide");
+
           this.getAll();
         });
     },
     generate: function() {
-      this.loading = true;
+      this.generating = true;
       this.$http
         .get(this.$APIUri("/recommendations/generate"))
-        .then(response => {
-          this.getAll();
+        .then(response => response.text())
+        .then(message => {
+          this.message.info = message;
         })
         .finally(() => {
-          this.loading = false;
+          this.getAll();
+          this.generating = false;
         });
     },
     getAll: function(filter) {
@@ -264,6 +296,8 @@ export default {
         });
     },
     refuse: function(recommendation) {
+      this.loading = true;
+
       this.$http
         .get(
           this.$APIUri(
@@ -281,10 +315,14 @@ export default {
           this.message.error = message;
         })
         .finally(() => {
+          this.loading = false;
+
           $("#modalMessage").modal("hide");
         });
     },
     saveEvaluation: function() {
+      this.loadingEvaluation = true;
+
       var url = this.recommendation.evaluationDate ? "/update" : "/save";
 
       this.$http
@@ -303,6 +341,8 @@ export default {
           this.message.error = message;
         })
         .finally(() => {
+          this.loadingEvaluation = false;
+
           $("#modalEvaluation").modal("hide");
         });
     },
@@ -350,15 +390,18 @@ export default {
       });
 
       if (recommendation.evaluationDate) {
+        this.$set(recommendation, "loadingEvaluate", true);
         this.$http
-          .get(this.$APIUri(
-            "/evaluations/recommendation?idRecommendation=" +
-              recommendation.id
-          ))
+          .get(
+            this.$APIUri(
+              "/evaluations/recommendation?idRecommendation=" +
+                recommendation.id
+            )
+          )
           .then(response => response.json())
-          .then(json => {
+          .then(responseJson => {
             recommendation.questions.forEach(question => {
-              response.body.forEach(questionC => {
+              responseJson.forEach(questionC => {
                 if (questionC.idQuestion === question.idQuestion) {
                   question.answer = questionC.answer;
 
@@ -372,15 +415,19 @@ export default {
               });
             });
           })
-          .catch(reseponse => response.text())
+          .catch(response => response.text())
           .then(message => {
             this.message.error = message;
+          })
+          .finally(() => {
+            this.evaluationValidated = this.evaluationIsCompleted();
+            recommendation.loadingEvaluate = false;
+            $("#modalEvaluation").modal("show");
           });
+      } else {
+        this.evaluationValidated = this.evaluationIsCompleted();
+        $("#modalEvaluation").modal("show");
       }
-
-      this.evaluationValidated = this.evaluationIsCompleted();
-
-      $("#modalEvaluation").modal("show");
     },
     showModalMessageRefuse: function(recommendation) {
       this.recommendation = recommendation;
@@ -425,6 +472,7 @@ export default {
     }
   },
   mounted() {
+    this.getAll();
     this.getQuestions();
   }
 };

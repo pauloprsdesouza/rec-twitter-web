@@ -13,18 +13,54 @@
 
 @media(max-height: 200px) {
   .banner-backdrop.home>.banner-heading {
-    margin-top: 5% !important;
+    margin-top: 0% !important;
+  }
+  .card-header {
+    text-align: center !important;
+  }
+
+  .img-logo{
+    width: 200px !important;
   }
 }
 
 @media(max-height: 400px) {
   .banner-backdrop.home>.banner-heading {
-    margin-top: 5% !important;
+    margin-top: 0% !important;
+  }
+  .card-header {
+    text-align: center !important;
+  }
+
+  .img-logo{
+    width: 200px !important;
   }
 }
 
 @media(max-height: 700px) {
   .banner-backdrop.home>.banner-heading {
     margin-top: 15% !important;
+  }
+
+  .img-logo{
+    width: 300px !important;
+  }
+
+  .banner {
+    padding-top: 0px !important;
+  }
+}
+
+@media(max-width: 600px) {
+  .card-header {
+    text-align: center !important;
+  }
+  .card-header>.row>.col {
+    text-align: center !important;
+    padding: 10px;
+  }
+  #btnRecommendations {
+    display: block;
+    width: 100%;
   }
 }

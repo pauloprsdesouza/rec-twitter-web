@@ -12,6 +12,7 @@
         <span class="text-muted">RecTwitter 2018 - &copy; All Rights Reserved</span>
       </div>
     </footer>
+    
   </div>
 </template>
 
@@ -24,7 +25,8 @@ export default {
     return {
       user: {},
       message: { error: null, info: null },
-      currentRoute: window.location.pathname
+      currentRoute: window.location.pathname,
+      loading: false
     };
   },
   components: {

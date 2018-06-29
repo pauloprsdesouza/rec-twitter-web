@@ -10,8 +10,8 @@ Vue.config.productionTip = false;
 Vue.use(VueResource)
 
 Vue.prototype.$APIUri = function (path) {
-   //return 'http://rectwitterapi-env.qvp8mkewsj.sa-east-1.elasticbeanstalk.com' + path;
-   return 'http://localhost:8080' + path;
+  //return 'http://rectwitterapi-env.qvp8mkewsj.sa-east-1.elasticbeanstalk.com' + path;
+  return 'http://localhost:8080' + path;
 }
 
 Vue.http.interceptors.push((request, response) => {
@@ -35,11 +35,8 @@ Vue.http.interceptors.push((request, response) => {
   response((response) => {
     if (response.status === 401) {
       window.location.href = '/unauthorized';
+      localStorage.removeItem("token");
     }
-
-    // if (response.status === 0) {
-    //   window.location.href = '/';
-    // }
 
     if (response.status === 500) {
       window.location.href = '/internal-error';

@@ -2,7 +2,7 @@
   <div>
     <div id="header-portifolio" class="banner banner-backdrop backdrop-opace1 home text-center">
       <div class="banner-heading">
-        <img src="../assets/rec-twitter-logo.png" class="mb-5 img-fluid" width="400" />
+        <img src="../assets/rec-twitter-logo.png" class="mb-4 img-fluid img-logo" width="400" />
         <p class="font-size-sm">A Recommendation System From Twitter</p>
       </div>
       <div class="banner-body">
@@ -21,6 +21,8 @@
       </div>
       <div class="banner-body">
         <div class="container">
+          <!-- <iframe width="420" height="315" src="https://www.youtube.com/embed/HRS4mhLQRus">
+          </iframe> -->
           <p class="lead text-justify">
             The recommendation system aims to analyze all the tweets received by one user at a time window to verify the interactions such as retweet, like and reply, as also their content. Hence after this analysis, we can measure which content is more similar to another to generate the recommendations proposed such as: follow an account -
             <i>Followee Recommendation</i> or unfollow an account -
@@ -29,16 +31,21 @@
         </div>
       </div>
     </div>
+    <modal-instructions></modal-instructions>
   </div>
 </template>
 
 <script>
+import ModalInstructions from '../components/Instructions'
 export default {
   name: "LoginTwitter",
   data() {
     return {
       loading: false
     };
+  },
+  components:{
+    ModalInstructions
   },
   methods: {
     login: function() {

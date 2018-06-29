@@ -40,21 +40,26 @@
                                 </tr>
                             </tbody>
                             <tfoot>
-                                <tr>
+                                <tr v-if="recommendations > 0">
                                     <td colspan="4">
                                         <pagination-component :update="getRecommendations" :current-pagination="pagination"></pagination-component>
+                                    </td>
+                                </tr>
+                                <tr v-if="recommendations == 0">
+                                    <td colspan="4" class="text-center">
+                                        <em class="text-muted" v-if="!loading">Without recommendations refused.</em>
+                                        <span v-if="loading">
+                                            <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading
+                                        </span>
                                     </td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
-                    <h4 class="text-center" v-if="recommendations == 0">
-                        <em>Without recommendations refused.</em>
-                    </h4>
                 </div>
             </div>
         </div>
-        <modal-message v-bind:title="modalMessage.title" v-bind:callback-yes="modalMessage.callbackYes" v-bind:callback-no="modalMessage.callbackNo" v-bind:message="modalMessage.message"></modal-message>
+        <modal-message v-bind:title="modalMessage.title" v-bind:callback-yes="modalMessage.callbackYes" v-bind:callback-no="modalMessage.callbackNo" v-bind:message="modalMessage.message" v-bind:loading="loadingRecover"></modal-message>
     </div>
 </template>
 
@@ -75,6 +80,7 @@ export default {
       recommendations: [],
       message: { error: null, info: null },
       loading: false,
+      loadingRecover: false,
       recommendation: {}
     };
   },
@@ -87,6 +93,8 @@ export default {
       this.message = { error: null, success: null };
     },
     getRecommendations: function() {
+      this.loading = true;
+
       this.$http
         .post(this.$APIUri("/recommendations/refused"), {
           pagination: this.pagination
@@ -99,10 +107,14 @@ export default {
         .catch(response => response.text())
         .then(message => {
           this.message.error = message;
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     recoverRecommendation: function() {
-      this.loading = true;
+      this.loadingRecover = true;
+
       this.$http
         .post(this.$APIUri("/recommendations/recover"), {
           idRecommendation: this.recommendation.id
@@ -118,7 +130,7 @@ export default {
           this.message.error = message;
         })
         .finally(() => {
-          this.loading = false;
+          this.loadingRecover = false;
         });
     },
     dismissModalMessage: function() {
