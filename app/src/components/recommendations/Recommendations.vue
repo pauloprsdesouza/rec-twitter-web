@@ -11,6 +11,11 @@
       <div class="container">
         <h1 class="display-5">Recommendations</h1>
         <p class="lead">Here are the recommendations over the tweets extracted from his timeline.</p>
+        <p class="text-muted" v-if="rangeDate.initialDate">
+          The recommendations were generated from tweets extracted between
+          <b>{{rangeDate.initialDate}}</b> and
+          <b>{{rangeDate.endDate}}</b>.
+        </p>
       </div>
     </div>
     <div class="mb-3">
@@ -95,7 +100,7 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="modalEvaluation" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEvaluation" data-backdrop="static">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -154,6 +159,7 @@ export default {
       recommendations: [],
       recommendation: { user: { name: null } },
       evaluationValidated: false,
+      rangeDate: {},
       pagination: {}
     };
   },
@@ -236,6 +242,7 @@ export default {
         .then(json => {
           this.recommendations = json.recommendations;
           this.pagination = json.pagination;
+          this.rangeDate = json.rangeDate;
         })
         .catch(response => response.text())
         .then(message => {
@@ -295,7 +302,7 @@ export default {
           this.message.error = message;
         });
     },
-    refuse: function(recommendation) {
+    refuse: function() {
       this.loading = true;
 
       this.$http
@@ -308,7 +315,8 @@ export default {
         .then(message => {
           this.message.info = message;
 
-          this.getAll();
+          var index = this.recommendations.indexOf(this.recommendation);
+          this.recommendations.splice(index, 1);
         })
         .catch(reseponse => response.text())
         .then(message => {

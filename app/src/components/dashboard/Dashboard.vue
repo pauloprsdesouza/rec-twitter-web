@@ -11,26 +11,31 @@
       <div class="container">
         <h1 class="display-5">Dashboard</h1>
         <p class="lead">This show the information over his account.</p>
+        <p class="text-muted" v-if="userData.lastUpdate"> Last update at
+          <b>{{userData.lastUpdate}}</b>
+        </p>
       </div>
     </div>
-    <div class="row justify-content-center">
-      <div class="col mt-2">
-        <button id="btnPopoverDashboard" class="btn btn-primary btn-lg btn-block pt-3 pb-3" v-on:click="updateInformations()" v-bind:disabled="loading" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, welcome to Rectwitter click here to begin.">
-          <span v-if="loading">
-            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Extracting information</span>
-          <span v-if="!loading">
-            <i class="fas fa-cloud-download-alt fa-3x align-middle"></i>&nbsp;Update Informations</span>
+    <div class="row justify-content-center ">
+      <div class="col-lg-4 col-md-4 col-sm-4 mt-2 ">
+        <button id="btnPopoverDashboard" class="btn btn-primary btn-lg btn-block pt-3 pb-3" v-on:click="updateInformations()" v-bind:disabled="loading || updating" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, welcome to Rectwitter click here to begin.">
+          <span v-if="!loading && updating">
+            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Updating</span>
+          <span v-if="!updating && loading">
+            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Loading</span>
+          <span v-if="!loading && !updating">
+            <i class="fas fa-cloud-download-alt fa-3x align-middle"></i>&nbsp;Update</span>
         </button>
       </div>
-      <div class="col mt-2">
+      <div class="col-lg-4 col-md-4 col-sm-4 mt-2">
         <button class="btn btn-success btn-lg btn-block pt-3 pb-3" data-toggle="modal" data-target="#modalRecommendationsAccepted">
           <i class="fas fa-check-circle fa-3x align-middle"></i>
-          Recommendations Accepted
+          Accepted
         </button>
       </div>
-      <div class="col mt-2">
+      <div class="col-lg-4 col-md-4 col-sm-4 mt-2">
         <button class="btn btn-danger btn-lg btn-block pt-3 pb-3" data-toggle="modal" data-target="#modalRecommendationsRefused">
-          <i class="fas fa-times-circle fa-3x align-middle"></i>&nbsp;Recommendations Refused
+          <i class="fas fa-times-circle fa-3x align-middle"></i>&nbsp;Refused
         </button>
       </div>
     </div>
@@ -150,6 +155,7 @@ export default {
     return {
       userData: {},
       loading: false,
+      updating: false,
       message: { error: null, info: null },
       words: [],
       textEmptyTweet: ""
@@ -192,7 +198,7 @@ export default {
         });
     },
     updateInformations: function() {
-      this.loading = true;
+      this.updating = true;
 
       this.$http
         .get(this.$APIUri("/twitter/extract-data"))
@@ -204,7 +210,7 @@ export default {
           this.message.error = message;
         })
         .finally(() => {
-          this.loading = false;
+          this.updating = false;
         });
     }
   },

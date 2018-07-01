@@ -1,5 +1,5 @@
 <template>
-    <div class="modal fade" id="modalRecommendationsRefused">
+    <div class="modal fade" id="modalRecommendationsRefused" data-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -123,7 +123,9 @@ export default {
         .then(message => {
           this.message.info = message;
           this.dismissModalMessage();
-          this.getRecommendations();
+
+          var index = this.recommendations.indexOf(this.recommendation);
+          this.recommendations.splice(index, 1);
         })
         .catch(response => response.text())
         .then(message => {
@@ -153,7 +155,9 @@ export default {
   },
   mounted() {
     $("#modalRecommendationsRefused").on("show.bs.modal", () => {
-      this.getRecommendations();
+      if (this.recommendations.length == 0) {
+        this.getRecommendations();
+      }
     });
   }
 };
