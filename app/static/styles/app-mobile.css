@@ -20,7 +20,7 @@
   }
 
   .img-logo{
-    width: 200px !important;
+    width: 100px !important;
   }
 }
 
@@ -39,7 +39,7 @@
 
 @media(max-height: 700px) {
   .banner-backdrop.home>.banner-heading {
-    margin-top: 15% !important;
+    margin-top: 20% !important;
   }
 
   .img-logo{

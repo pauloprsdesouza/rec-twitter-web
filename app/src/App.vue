@@ -9,7 +9,7 @@
     </main>
     <footer class="footer">
       <div class="container text-center">
-        <span class="text-muted">RecTwitter 2018 - &copy; All Rights Reserved</span>
+        <span class="text-muted">RecTwitter 2018 - &copy; <a class="text-white" href="http://paulorsouza.com.br">Paulo Roberto</a></span>
       </div>
     </footer>
     
@@ -41,7 +41,7 @@ export default {
         .then(json => {
           this.user = json;
         })
-        .catch(response => response.text())
+        .catch(response => response.json())
         .then(message => {
           this.message.error = message;
         });

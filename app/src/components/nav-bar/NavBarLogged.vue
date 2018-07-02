@@ -50,7 +50,7 @@ export default {
     },
     logout: function() {
       this.$http
-        .get(this.$APIUri("/twitter/signout"))
+        .get(this.$APIUri("/users/signout"))
         .then(() => {
           window.location.href = "/";
         })

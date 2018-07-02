@@ -4,9 +4,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Recommendaitions Accepted</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-dismissible fade show" :class="{'alert-success': message.info, 'alert-danger': message.error}" v-if="message.success || message.error " role="alert">
@@ -45,13 +42,16 @@
                                     <td colspan="4" class="text-center">
                                         <em class="text-muted" v-if="!loading">Without recommendations accepted.</em>
                                         <span v-if="loading">
-                                            <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading
+                                            <i class="fas fa-spinner fa-pulse fa-2x align-middle"></i>&nbsp;Loading
                                         </span>
                                     </td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -90,9 +90,9 @@ export default {
           this.recommendations = json.recommendations;
           this.pagination = json.pagination;
         })
-        .catch(response => response.text())
+        .catch(response => response.json())
         .then(message => {
-          this.message.error = message;
+            this.message.error = message;;
         })
         .finally(() => {
           this.loading = false;

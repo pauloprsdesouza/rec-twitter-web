@@ -1,3 +1,5 @@
+.modal-content,
+.card,
 .badge,
 .btn,
 .progress {
@@ -200,7 +202,7 @@ code {
 }
 
 .banner-backdrop.home>.banner-heading {
-  margin-top: 10%;
+  margin-top: 3%;
 }
 
 .banner-backdrop.backdrop-opace::before {

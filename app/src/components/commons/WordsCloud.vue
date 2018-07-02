@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div v-show="loadingKeywords" id="myChart"></div>
-    <div class="text-center">
-      <i v-if="loading" class="fas fa-spinner fa-pulse fa-4x align-middle"></i>
+    <div v-show="!loading && loadingKeywords" id="myChart"></div>
+    <div v-if="loading" class="text-center">
+      <i class="fas fa-spinner fa-pulse fa-2x align-middle"></i>&nbsp;Loading
     </div>
   </div>
 </template>
@@ -75,6 +75,7 @@ export default {
 
       zingchart.render({
         id: "myChart",
+        height: "300px",
         data: myConfig,
         width: "100%"
       });

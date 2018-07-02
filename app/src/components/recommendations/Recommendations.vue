@@ -1,16 +1,16 @@
 <template>
   <div id="Recommendations">
-    <div class="alert alert-dismissible fade show" :class="{'alert-success': message.info, 'alert-danger': message.danger}" v-if="message.info || message.error " role="alert">
+    <div class="alert alert-dismissible fade show" :class="{'alert-success': message.info, 'alert-danger': message.error}" v-if="message.info || message.error " role="alert">
       <span v-if="message.info">{{message.info}}</span>
       <span v-if="message.error">{{message.error}}</span>
       <button type="button" class="close" v-on:click="clearMessage()">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
-    <div class="jumbotron jumbotron-fluid">
+    <div class="jumbotron jumbotron-fluid mb-3">
       <div class="container">
         <h1 class="display-5">Recommendations</h1>
-        <p class="lead">Here are the recommendations over the tweets extracted from his timeline.</p>
+        <p class="lead">Here are the recommendations over the tweets extracted from your timeline.</p>
         <p class="text-muted" v-if="rangeDate.initialDate">
           The recommendations were generated from tweets extracted between
           <b>{{rangeDate.initialDate}}</b> and
@@ -18,7 +18,7 @@
         </p>
       </div>
     </div>
-    <div class="mb-3">
+    <div class="mb-3" v-if="!intructionsRequired">
       <filter-recommendations v-bind:callback="getAll" :loading="loading"></filter-recommendations>
     </div>
     <div class="card">
@@ -30,13 +30,12 @@
             </span>
           </div>
           <div class="col text-right">
-            <button id="btnRecommendations" class="btn btn-primary align-middle" v-on:click="generate()" v-bind:disabled="generating" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, click here to generate recommendatons.">
+            <button id="btnRecommendations" class="btn btn-primary align-middle" v-on:click="generate()" v-bind:disabled="generating || intructionsRequired" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, click here to generate recommendatons.">
 
               <span v-if="generating">
                 <i class="fas fa-spinner fa-pulse"></i>&nbsp;Generating</span>
               <span v-if="!generating">
                 <i class="fas fa-plus-circle"></i>&nbsp;Generate Recommendations</span>
-
             </button>
           </div>
         </div>
@@ -91,7 +90,7 @@
                 <td colspan="6" class="text-center">
                   <em class="text-muted" v-if="!loading">Without recommendations.</em>
                   <span v-if="loading">
-                    <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading
+                    <i class="fas fa-spinner fa-pulse fa-2x align-middle"></i>&nbsp;Loading
                   </span>
                 </td>
               </tr>
@@ -107,9 +106,6 @@
             <h5 class="modal-title" id="exampleModalLabel">How do you Evaluate the recommendation
               <b>{{recommendation.user.name}}</b>?
             </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
           </div>
           <div class="modal-body">
             <div class="card mb-2" v-for="question in recommendation.questions" :key="question.id">
@@ -154,7 +150,8 @@ export default {
       loading: false,
       loadingEvaluation: false,
       generating: false,
-      message: { error: null, info: null },
+      intructionsRequired: true,
+      message: { error: "", info: "" },
       questions: [],
       recommendations: [],
       recommendation: { user: { name: null } },
@@ -171,7 +168,7 @@ export default {
   },
   methods: {
     clearMessage: function() {
-      this.message = { error: null, success: null };
+      this.message = { error: "", success: "" };
     },
     createFriendship: function(recommendation) {
       this.loading = true;
@@ -183,7 +180,7 @@ export default {
               this.recommendation.id
           )
         )
-        .then(response => response.text())
+        .then(response => response.json())
         .then(message => {
           this.message.info = message;
         })
@@ -205,7 +202,7 @@ export default {
               this.recommendation.id
           )
         )
-        .then(response => response.text())
+        .then(response => response.json())
         .then(message => {
           this.message.info = message;
         })
@@ -218,17 +215,20 @@ export default {
         });
     },
     generate: function() {
-      this.generating = true;
-      this.$http
-        .get(this.$APIUri("/recommendations/generate"))
-        .then(response => response.text())
-        .then(message => {
-          this.message.info = message;
-        })
-        .finally(() => {
-          this.getAll();
-          this.generating = false;
-        });
+      if (!this.intructionsRequired) {
+        this.generating = true;
+
+        this.$http
+          .get(this.$APIUri("/recommendations/generate"))
+          .then(response => response.json())
+          .then(message => {
+            this.message.info = message;
+          })
+          .finally(() => {
+            this.getAll();
+            this.generating = false;
+          });
+      }
     },
     getAll: function(filter) {
       this.loading = true;
@@ -243,10 +243,15 @@ export default {
           this.recommendations = json.recommendations;
           this.pagination = json.pagination;
           this.rangeDate = json.rangeDate;
+
+          this.intructionsRequired = false;
         })
-        .catch(response => response.text())
-        .then(message => {
-          this.message.error = message;
+        .catch(response => {
+          this.intructionsRequired = response.status === 422;
+
+          response.json().then(message => {
+            this.message.error = message;
+          });
         })
         .finally(() => {
           this.loading = false;
@@ -278,11 +283,11 @@ export default {
               this.recommendation.id
           )
         )
-        .then(response => response.text())
+        .then(response => response.json())
         .then(message => {
           this.message.info = message;
         })
-        .catch(response => response.text())
+        .catch(response => response.json())
         .then(message => {
           this.message.error = message;
         });
@@ -297,7 +302,7 @@ export default {
         .then(json => {
           this.questions = json;
         })
-        .catch(reseponse => response.text())
+        .catch(reseponse => response.json())
         .then(message => {
           this.message.error = message;
         });
@@ -311,14 +316,14 @@ export default {
             "/recommendations/refuse?idRecommendation=" + this.recommendation.id
           )
         )
-        .then(response => response.text())
+        .then(response => response.json())
         .then(message => {
           this.message.info = message;
 
           var index = this.recommendations.indexOf(this.recommendation);
           this.recommendations.splice(index, 1);
         })
-        .catch(reseponse => response.text())
+        .catch(reseponse => response.json())
         .then(message => {
           this.message.error = message;
         })
@@ -338,13 +343,13 @@ export default {
           answers: this.recommendation.questions,
           idRecommendation: this.recommendation.id
         })
-        .then(response => response.text())
+        .then(response => response.json())
         .then(message => {
           this.message.info = message;
 
           this.getAll();
         })
-        .catch(reseponse => response.text())
+        .catch(reseponse => response.json())
         .then(message => {
           this.message.error = message;
         })

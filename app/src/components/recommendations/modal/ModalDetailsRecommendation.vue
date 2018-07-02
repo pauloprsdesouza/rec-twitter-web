@@ -28,7 +28,7 @@
                         <li class="list-group-item">
                             <i class="far fa-hand-pointer"></i> You interact with: {{calculatePercentual(recommendation.totalInteractions)}}%</li>
                         <li class="list-group-item">
-                            <i class="far fa-thumbs-up"></i> Percent of interesting content for you: {{recommendation.totalPreferences*100}}%</li>
+                            <i class="far fa-thumbs-up"></i> Percentage of interesting content to you: {{recommendation.totalPreferences*100}}%</li>
                             <li class="list-group-item">
                             <i class="far fa-calendar-alt"></i> Registered in: {{recommendation.registrationDate}}</li>
                     </ul>
