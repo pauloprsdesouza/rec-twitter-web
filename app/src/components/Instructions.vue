@@ -23,7 +23,7 @@
                     </p>
                     <p v-if="globalization.pt" class="lead text-justify">
                         Este experimento visa
-                        <mark>analizar as interações</mark> com os tweets recebidos na sua timeline. Portanto alguns critérios são necessários para a realização deste experimento como mostrado abaixo:
+                        <mark>analisar as interações</mark> com os tweets recebidos na sua timeline. Portanto alguns critérios são necessários para a realização deste experimento como mostrado abaixo:
                     </p>
                     <h1 class="display-6">
                         <span v-if="globalization.en">Criteria</span>
@@ -43,7 +43,7 @@
                         <li class="list-group-item lead text-justify">
                             <i class="far fa-hand-pointer fa-2x align-middle"></i>&nbsp;
                             <span v-if="globalization.en">To interact at least with 20 received tweets on the timeline through any criteria of interaction for instance: retweet, like or reply</span>
-                            <span v-if="globalization.pt">Interagir pelo menos com 20 tweets recebidos na sua timeline através de qualquer critério de interação, por exemplo: retweet, like ou reposta</span>
+                            <span v-if="globalization.pt">Interagir pelo menos com 20 tweets recebidos na sua timeline através de qualquer critério de interação por exemplo: retweet, like ou reposta</span>
                         </li>
                     </ul>
 
@@ -58,7 +58,8 @@
                                     <i class="fas fa-user-circle fa-3x"></i>
                                 </div>
                                 <div class="col-md-11">
-                                    <b>Steve Jobs</b> @stevejobs 31 de dez de 2017
+                                    <span v-if="globalization.en"><b>Steve Jobs</b> @stevejobs 31 dec 2017</span>
+                                    <span v-if="globalization.pt"><b>Steve Jobs</b> @stevejobs 31 de dez de 2017</span>
                                     <div class="div-message"></div>
                                 </div>
                             </div>
@@ -69,25 +70,28 @@
                                     <div class="div-message"></div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <i class="far fa-comment"></i>&nbsp;13
-                                </div>
-                                <div class="col-md-2">
-                                    <i class="fas fa-retweet text-success"></i>&nbsp;
-                                    <span class="text-success">5</span>
-                                </div>
-                                <div class="col-md-2">
-                                    <i class="fas fa-heart text-danger"></i>&nbsp;
-                                    <span class="text-danger">320</span>
-                                </div>
-                                <div class="col-md-2">
-                                    <i class="far fa-envelope"></i>
+                            <div class="row justify-content-center">
+                                <div class="col">
+                                    <div class="btn-group">
+                                        <button class="btn btn-light">
+                                            <i class="far fa-comment"></i>&nbsp;2</button>
+                                        <button class="btn btn-light">
+                                            <i class="fas fa-retweet text-success"></i>&nbsp;
+                                            <span class="text-success">5</span>
+                                        </button>
+                                        <button class="btn btn-light">
+                                            <i class="fas fa-heart text-danger"></i>&nbsp;
+                                            <span class="text-danger">8</span>
+                                        </button>
+                                        <button class="btn btn-light">
+                                            <i class="far fa-envelope"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             <p class="lead text-justify mt-4">
                                 <span v-if="globalization.en">If you have have any doubt see the</span>
-                                <span v-if="globalization.pt">Se você tiver alguma dúvida acesse </span>
+                                <span v-if="globalization.pt">Se você tiver alguma dúvida acesse</span>
                                 <a href="https://help.twitter.com/pt/glossary">Twitter Glossary</a>
                             </p>
                         </div>
@@ -103,7 +107,7 @@
                     </p>
                     <p v-if="globalization.pt" class="lead text-justify">
                         Este sistema
-                        <mark>não salva nenhuma credencial</mark> de sua conta ex.: nome do usuário e senha. Lembre-se, apenas os dados da timeline e do perfil são usados para a analise e os dados não são publicados ou compartilhados outras aplicações.
+                        <mark>não salva nenhuma credencial</mark> da sua conta, por exemplo: nome do usuário e senha. Lembre-se, apenas os dados da timeline e do perfil são usados para a análise de modo que não são publicados ou compartilhados com outras aplicações.
                     </p>
                 </div>
                 <div class="modal-footer">

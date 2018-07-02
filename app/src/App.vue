@@ -9,7 +9,7 @@
     </main>
     <footer class="footer">
       <div class="container text-center">
-        <span class="text-muted">RecTwitter 2018 - &copy; <a class="text-white" href="http://paulorsouza.com.br">Paulo Roberto</a></span>
+        <span class="text-muted">RecTwitter 2018 - &copy;&nbsp;by&nbsp;<a class="text-primary" href="http://paulorsouza.com.br">Paulo Roberto</a></span>
       </div>
     </footer>
     

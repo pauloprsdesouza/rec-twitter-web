@@ -7,6 +7,7 @@ import Dashboard from '@/components/dashboard/Dashboard'
 import Unauthorized from '@/components/error-pages/Unauthorized'
 import PageNotFound from '@/components/error-pages/PageNotFound'
 import PageServerError from '@/components/error-pages/PageServerError'
+import InstructionsBlankPage from '@/components/InstructionsBlankPage'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/internal-error',
       name: 'PageServerError',
       component: PageServerError
+    },
+    {
+      path: '/instructions',
+      name: 'InstructionsBlankPage',
+      component: InstructionsBlankPage
     }
   ]
 })

@@ -11,6 +11,8 @@
             <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading</span>
           <span v-if="!loading"> Login Twitter</span>
         </a>
+        <a class="btn btn-secondary btn-lg" href="/instructions" target="_blank">Instruções do Experimento
+        </a>
         <div class="row justify-content-center video-tutorial">
           <div class="col-md-5 col-sm-12">
             <div class="embed-responsive embed-responsive-16by9 mt-5" style="height:400px; margin-left:auto; margin-right:auto">
@@ -20,28 +22,13 @@
         </div>
       </div>
     </div>
-    <!-- <div id="about" class="banner banner-blue">
-      <div class="banner-heading">
-        <h1 class="display-4 fancy">
-          <span>ABOUT</span>
-        </h1>
-      </div>
-      <div class="banner-body">
-        <div class="container">
-          <p class="lead text-justify">
-            The recommendation system aims to analyze all the tweets received by one user at a time window to verify the interactions such as retweet, like and reply, as also their content. Hence after this analysis, we can measure which content is more similar to another to generate the recommendations proposed such as: follow an account -
-            <i>Followee Recommendation</i> or unfollow an account -
-            <i>Unfollowee Recommendation</i>.
-          </p>
-        </div>
-      </div>
-    </div> -->
     <modal-instructions></modal-instructions>
   </div>
 </template>
 
 <script>
 import ModalInstructions from "../components/Instructions";
+import InstructionsBlackPage from "../components/InstructionsBlankPage";
 export default {
   name: "LoginTwitter",
   data() {
@@ -50,7 +37,8 @@ export default {
     };
   },
   components: {
-    ModalInstructions
+    ModalInstructions,
+    InstructionsBlackPage
   },
   methods: {
     login: function() {
