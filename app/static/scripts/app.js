@@ -1,5 +1,9 @@
 $(document).ready(function () {
     changeHeightHeaderPortifolio();
+    
+    $(document).ready(function() {
+        $("body").tooltip({ selector: '[data-toggle=tooltip]' });
+    });
 
     $(window).bind('resize', function () {
         changeHeightHeaderPortifolio();
@@ -11,6 +15,5 @@ $(document).ready(function () {
         if($(window).width() < 500 || $(window).height() < 800){
             $("#header-portifolio").height($(window).height() + 350);
         }
-
     }
 });

@@ -20,8 +20,8 @@
                             <i class="fas fa-check" v-if="recommendation.toFollow"></i>
                             <i class="fas fa-times" v-if="!recommendation.toFollow"></i>
                             Recommended to:
-                            <span class="badge badge-success" v-if="recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate">Follow</span>
-                            <span class="badge badge-danger" v-if="!recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate">Unfollow</span>
+                            <span class="badge badge-success" v-if="recommendation.recommendedTo === 'F'" v-bind:disabled="recommendation.acceptanceDate">Follow</span>
+                            <span class="badge badge-danger" v-if="recommendation.recommendedTo === 'U'" v-bind:disabled="recommendation.acceptanceDate">Unfollow</span>
                         </li>
                         <li class="list-group-item">
                             <i class="fab fa-twitter"></i> Total posts: {{recommendation.totalPosts}}</li>
@@ -51,7 +51,6 @@ export default {
           var percent = (value / this.recommendation.totalPosts*100);
           return Math.round(percent * 100) / 100;
       }
-  },
-  mounted() {}
+  }
 };
 </script>

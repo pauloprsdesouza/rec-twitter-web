@@ -3,11 +3,12 @@ import Router from 'vue-router'
 import Recommendations from '@/components/recommendations/Recommendations'
 import Portal from '@/components/Portal'
 import About from '@/components/About'
+import Resume from '@/components/analysis/Resume'
 import Dashboard from '@/components/dashboard/Dashboard'
 import Unauthorized from '@/components/error-pages/Unauthorized'
 import PageNotFound from '@/components/error-pages/PageNotFound'
 import PageServerError from '@/components/error-pages/PageServerError'
-import InstructionsBlankPage from '@/components/InstructionsBlankPage'
+import InstructionsBlankPage from '@/components/instructions/InstructionsBlankPage'
 
 Vue.use(Router)
 
@@ -32,6 +33,11 @@ export default new Router({
       path: '/about',
       name: 'About',
       component: About
+    },
+    {
+      path: '/resume',
+      name: 'Resume',
+      component: Resume
     },
     {
       path: '/unauthorized',

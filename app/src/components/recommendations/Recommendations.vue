@@ -58,8 +58,8 @@
                   <span class="badge badge-dark" v-if="recommendation.isNew">New</span>
                 </td>
                 <td class="text-center">
-                  <button class="btn btn-success btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, true)" v-if="recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Follow</button>
-                  <button class="btn btn-danger btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, false)" v-if="!recommendation.toFollow" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Unfollow</button>
+                  <button class="btn btn-success btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, true)" v-if="recommendation.recommendedTo === 'F'" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Follow</button>
+                  <button class="btn btn-danger btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, false)" v-if="recommendation.recommendedTo === 'U'" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Unfollow</button>
                 </td>
                 <td class="text-center">
                   <span class="badge badge-dark" v-if="recommendation.evaluationDate">{{recommendation.evaluationDate}}</span>
@@ -133,15 +133,17 @@
         </div>
       </div>
     </div>
-    <modal-message v-bind:title="modal.title" v-bind:callback-yes="modal.callback" v-bind:message="modal.message" v-bind:loading="loading"></modal-message>
-    <modal-details-recommendation title="" :recommendation="recommendation"></modal-details-recommendation>
+    <modal-message v-bind:title="modal.title" v-bind:callback-yes="modal.callback" v-bind:message="modal.message" v-bind:loading="loading" v-bind:visible-yes="buttonYesMessage"></modal-message>
+    <modal-details-recommendation :recommendation="recommendation"></modal-details-recommendation>
+    <Modal-requirements-recommendation :message-information="messageRequirementsToGenerateRecommendation"></modal-requirements-recommendation>
   </div>
 </template>
 <script>
-import ModalMessage from "../../components/commons/modal/ModalMessage";
-import FilterRecommendations from "./partial/FilterRecommendations";
-import PaginationComponent from "../../components/commons/PaginationComponent";
-import ModalDetailsRecommendation from "./modal/ModalDetailsRecommendation";
+import ModalMessage from "@/components/commons/modal/ModalMessage";
+import FilterRecommendations from "@/components/recommendations/partial/FilterRecommendations";
+import PaginationComponent from "@/components/commons/PaginationComponent";
+import ModalDetailsRecommendation from "@/components/recommendations/modal/ModalDetailsRecommendation";
+import ModalRequirementsRecommendation from "@/components/recommendations/modal/ModalRequirementsRecommendation";
 
 export default {
   data() {
@@ -157,18 +159,21 @@ export default {
       recommendation: { user: { name: null } },
       evaluationValidated: false,
       rangeDate: {},
-      pagination: {}
+      pagination: {},
+      buttonYesMessage: false,
+      messageRequirementsToGenerateRecommendation: ""
     };
   },
   components: {
     ModalMessage,
     FilterRecommendations,
     PaginationComponent,
-    ModalDetailsRecommendation
+    ModalDetailsRecommendation,
+    ModalRequirementsRecommendation
   },
   methods: {
     clearMessage: function() {
-      this.message = { error: "", success: "" };
+      this.message = { error: null, success: null };
     },
     createFriendship: function(recommendation) {
       this.loading = true;
@@ -183,6 +188,10 @@ export default {
         .then(response => response.json())
         .then(message => {
           this.message.info = message;
+        })
+        .catch(response => response.json())
+        .then(response => {
+          this.message.error = response;
         })
         .finally(() => {
           this.loading = false;
@@ -206,6 +215,10 @@ export default {
         .then(message => {
           this.message.info = message;
         })
+        .catch(response => response.json())
+        .then(response => {
+          this.message.error = response;
+        })
         .finally(() => {
           this.loading = false;
 
@@ -223,6 +236,10 @@ export default {
           .then(response => response.json())
           .then(message => {
             this.message.info = message;
+          })
+          .catch(response => response.json())
+          .then(response => {
+            this.message.error = response;
           })
           .finally(() => {
             this.getAll();
@@ -250,7 +267,8 @@ export default {
           this.intructionsRequired = response.status === 422;
 
           response.json().then(message => {
-            this.message.error = message;
+            this.messageRequirementsToGenerateRecommendation = message;
+            $("#modalRequirementsRecommendation").modal("show");
           });
         })
         .finally(() => {
@@ -443,6 +461,7 @@ export default {
       }
     },
     showModalMessageRefuse: function(recommendation) {
+      this.buttonYesMessage = true;
       this.recommendation = recommendation;
       this.modal.title = "Refuse Recommendation";
       this.modal.message =
@@ -453,7 +472,16 @@ export default {
 
       $("#modalMessage").modal("show");
     },
+    showModalMessageEmptyRecommendations: function() {
+      this.buttonYesMessage = false;
+      this.modal.title = "Hello";
+      this.modal.message =
+        "Have you finished your interactions? If yes send an e-mail to paulo.prsdesouza@gmail.com to notify him. Soon you will receive an email to notify you that recommendations have been generated. Thank you.";
+
+      $("#modalMessage").modal("show");
+    },
     showModalMessageRecommendedTo: function(recommendation, isFollow) {
+      this.buttonYesMessage = true;
       this.recommendation = recommendation;
 
       var typeRecommendation = isFollow ? "Follow" : "Unfollow";

@@ -59,14 +59,14 @@
 </template>
 
 <script>
-import PaginationComponent from "../../../components/commons/PaginationComponent";
+import PaginationComponent from "@/components/commons/PaginationComponent";
 
 export default {
   data() {
     return {
       pagination: {},
       recommendations: [],
-      message: { error: null, info: null },
+      message: { error: null, success: null },
       loading: false,
       recommendation: {}
     };
@@ -92,7 +92,7 @@ export default {
         })
         .catch(response => response.json())
         .then(message => {
-            this.message.error = message;;
+            this.message.error = message;
         })
         .finally(() => {
           this.loading = false;

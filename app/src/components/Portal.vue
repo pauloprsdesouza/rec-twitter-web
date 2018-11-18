@@ -16,7 +16,7 @@
         <div class="row justify-content-center video-tutorial">
           <div class="col-md-5 col-sm-12">
             <div class="embed-responsive embed-responsive-16by9 mt-5" style="height:400px; margin-left:auto; margin-right:auto">
-              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/HsScQwWdapg" allowfullscreen></iframe>
+              <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ktYsCZJYArU" allowfullscreen></iframe>
             </div>
           </div>
         </div>
@@ -27,8 +27,9 @@
 </template>
 
 <script>
-import ModalInstructions from "../components/Instructions";
-import InstructionsBlackPage from "../components/InstructionsBlankPage";
+import ModalInstructions from "@/components/instructions/Instructions";
+import InstructionsBlackPage from "@/components/instructions/InstructionsBlankPage";
+
 export default {
   name: "LoginTwitter",
   data() {

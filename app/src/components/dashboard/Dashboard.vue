@@ -39,7 +39,6 @@
         </button>
       </div>
     </div>
-
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title">Overview</h5>
@@ -145,9 +144,9 @@
 </template>
 
 <script>
-import WordsCloud from "../../components/commons/WordsCloud";
-import ModalRecommendationsRefused from "../../components/dashboard/modal/ModalRecommendationsRefused";
-import ModalRecommendationsAccepted from "../../components/dashboard/modal/ModalRecommendationsAccepted";
+import WordsCloud from "@/components/commons/WordsCloud";
+import ModalRecommendationsRefused from "@/components/dashboard/modal/ModalRecommendationsRefused";
+import ModalRecommendationsAccepted from "@/components/dashboard/modal/ModalRecommendationsAccepted";
 
 export default {
   name: "Dashboard",
@@ -191,7 +190,7 @@ export default {
         })
         .catch(response => response.json())
         .then(message => {
-            this.message.error = message;;
+            this.message.error = message;
         })
         .finally(() => {
           this.loading = false;
@@ -207,7 +206,7 @@ export default {
         })
         .catch(response => response.json())
         .then(message => {
-            this.message.error = message;;
+            this.message.error = message;
         })
         .finally(() => {
           this.updating = false;

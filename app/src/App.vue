@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <header>
+    <header v-if="currentRoute != '/resume'">
       <nav-bar-portal></nav-bar-portal>
       <nav-bar-logged :user="user"></nav-bar-logged>
     </header>
-    <main v-bind:class="{'container': currentRoute != '/'}">
+    <main v-bind:class="{'container': currentRoute != '/'}" v-cloak>
       <router-view/>
     </main>
     <footer class="footer">
@@ -12,7 +12,6 @@
         <span class="text-muted">RecTwitter 2018 - &copy;&nbsp;by&nbsp;<a class="text-primary" href="http://paulorsouza.com.br">Paulo Roberto</a></span>
       </div>
     </footer>
-    
   </div>
 </template>
 
@@ -48,7 +47,9 @@ export default {
     }
   },
   mounted() {
-    if (localStorage.getItem("token")) this.getCurrentUser();
+    var token = localStorage.getItem("token");
+
+    if (token != null) this.getCurrentUser();
   }
 };
 </script>

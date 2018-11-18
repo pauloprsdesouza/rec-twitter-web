@@ -64,8 +64,8 @@
 </template>
 
 <script>
-import PaginationComponent from "../../../components/commons/PaginationComponent";
-import ModalMessage from "../../../components/commons/modal/ModalMessage";
+import PaginationComponent from "@/components/commons/PaginationComponent";
+import ModalMessage from "@/components/commons/modal/ModalMessage";
 
 export default {
   data() {
@@ -106,7 +106,7 @@ export default {
         })
         .catch(response => response.json())
         .then(message => {
-            this.message.error = message;;
+          this.message.error = message;
         })
         .finally(() => {
           this.loading = false;
@@ -121,7 +121,7 @@ export default {
         })
         .then(response => response.json())
         .then(message => {
-            this.message.info = message;;
+          this.message.info = message;
           this.dismissModalMessage();
 
           var index = this.recommendations.indexOf(this.recommendation);
@@ -129,7 +129,7 @@ export default {
         })
         .catch(response => response.json())
         .then(message => {
-            this.message.error = message;;
+          this.message.error = message;
         })
         .finally(() => {
           this.loadingRecover = false;
