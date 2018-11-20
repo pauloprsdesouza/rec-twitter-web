@@ -7,6 +7,7 @@
             <li class="list-group-item"><b>Total users:</b> {{totalUsers}}</li>
             <li class="list-group-item"><b>Total Tweets:</b> {{totalTweets}}</li>
             <li class="list-group-item"><b>Total Recommendations:</b> {{totalRecommendations}}</li>
+             <li class="list-group-item"><b>Total Errors:</b> {{totalErrors}}</li>
         </ul>
         <div class="jumbotron-clean mb-3 mt-3">
             <h1 class="display-4">Users registered</h1>
@@ -50,7 +51,8 @@ export default {
       loading: false,
       totalUsers: 0,
       totalTweets: 0,
-      totalRecommendations: 0
+      totalRecommendations: 0,
+      totalErrors: 0
     };
   },
   methods: {
@@ -64,6 +66,7 @@ export default {
           this.totalUsers = json.totalUsers;
           this.totalTweets = json.totalTweets;
           this.totalRecommendations = json.totalRecommendations;
+          this.totalErrors = json.totalErrors;
         })
         .catch(response => response.json())
         .then(response => {
