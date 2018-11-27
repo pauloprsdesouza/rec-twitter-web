@@ -2,7 +2,7 @@
   <div>
     <div v-show="!loading && loadingKeywords" id="myChart"></div>
     <div v-if="loading" class="text-center">
-      <i class="fas fa-spinner fa-pulse fa-2x align-middle"></i>&nbsp;Loading
+      <i class="fas fa-spinner fa-pulse fa-2x align-middle"></i>&nbsp;Carregando
     </div>
   </div>
 </template>

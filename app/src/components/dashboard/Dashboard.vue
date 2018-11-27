@@ -10,8 +10,8 @@
     <div class="jumbotron jumbotron-fluid mb-3">
       <div class="container">
         <h1 class="display-5">Dashboard</h1>
-        <p class="lead">This shows the information over your account.</p>
-        <p class="text-muted" v-if="userData.lastUpdate"> Last update at
+        <p class="lead">Aqui são exibidas algumas informações sobre sua conta</p>
+        <p class="text-muted" v-if="userData.lastUpdate">Última atualização em
           <b>{{userData.lastUpdate}}</b>
         </p>
       </div>
@@ -20,22 +20,22 @@
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-sm-3">
         <button id="btnPopoverDashboard" class="btn btn-primary btn-lg btn-block pt-3 pb-3" v-on:click="updateInformations()" v-bind:disabled="loading || updating" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, welcome to Rectwitter click here to begin.">
           <span v-if="!loading && updating">
-            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Updating</span>
+            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Atualizando</span>
           <span v-if="!updating && loading">
-            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Loading</span>
+            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Carregando</span>
           <span v-if="!loading && !updating">
-            <i class="fas fa-cloud-download-alt fa-3x align-middle"></i>&nbsp;Update</span>
+            <i class="fas fa-cloud-download-alt fa-3x align-middle"></i>&nbsp;Atualizar tweets</span>
         </button>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-sm-3">
         <button class="btn btn-success btn-lg btn-block pt-3 pb-3" data-toggle="modal" data-target="#modalRecommendationsAccepted">
           <i class="fas fa-check-circle fa-3x align-middle"></i>
-          Accepted
+          Aceitas
         </button>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-sm-3">
         <button class="btn btn-danger btn-lg btn-block pt-3 pb-3" data-toggle="modal" data-target="#modalRecommendationsRefused">
-          <i class="fas fa-times-circle fa-3x align-middle"></i>&nbsp;Refused
+          <i class="fas fa-times-circle fa-3x align-middle"></i>&nbsp;Recusadas
         </button>
       </div>
     </div>
@@ -60,7 +60,7 @@
           <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 p-2">
             <div class="card">
               <div class="card-header">
-                <b>Followings</b>
+                <b>Seguindo</b>
               </div>
               <div class="card-body">
                 <blockquote class="blockquote">
@@ -74,7 +74,7 @@
           <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 p-2">
             <div class="card">
               <div class="card-header">
-                <b>Followers</b>
+                <b>Seguidores</b>
               </div>
               <div class="card-body">
                 <blockquote class="blockquote">
@@ -88,7 +88,7 @@
           <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 p-2">
             <div class="card">
               <div class="card-header">
-                <b>Likes</b>
+                <b>Curtidas</b>
               </div>
               <div class="card-body">
                 <blockquote class="blockquote">
@@ -116,7 +116,7 @@
           <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 p-2">
             <div class="card">
               <div class="card-header">
-                <b>Replies</b>
+                <b>Respostas</b>
               </div>
               <div class="card-body">
                 <blockquote class="blockquote">
@@ -133,8 +133,8 @@
 
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">Frequency of the Keywords</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Tweet's keywords extracted from the timeline for you to understand the approached context better.</h6>
+        <h5 class="card-title">Frequência das palavras</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Palavras-chave dos Tweet extraídos da sua timeline para melhor entendimento do contexto abordado.</h6>
         <words-cloud :key-words="words" :text="textEmptyTweet" :loading="loading || updating"></words-cloud>
       </div>
     </div>

@@ -9,11 +9,11 @@
     </div>
     <div class="jumbotron jumbotron-fluid mb-3">
       <div class="container">
-        <h1 class="display-5">Recommendations</h1>
-        <p class="lead">Here are the recommendations over the tweets extracted from your timeline.</p>
+        <h1 class="display-5">Recomendações</h1>
+        <p class="lead">Aqui são exibidas as recomendações dos tweets extraídos da sua timeline.</p>
         <p class="text-muted" v-if="rangeDate.initialDate">
-          The recommendations were generated from tweets extracted between
-          <b>{{rangeDate.initialDate}}</b> and
+          As recomendações foram geradas a partir dos tweets extraídos entre
+          <b>{{rangeDate.initialDate}}</b> e
           <b>{{rangeDate.endDate}}</b>.
         </p>
       </div>
@@ -26,16 +26,15 @@
         <div class="row align-items-center">
           <div class="col">
             <span>
-              <i class="fas fa-list"></i>&nbsp;Recommendations List
+              <i class="fas fa-list"></i>&nbsp;Recomendações
             </span>
           </div>
           <div class="col text-right">
             <button id="btnRecommendations" class="btn btn-primary align-middle" v-on:click="generate()" v-bind:disabled="generating || intructionsRequired" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, click here to generate recommendatons.">
-
               <span v-if="generating">
-                <i class="fas fa-spinner fa-pulse"></i>&nbsp;Generating</span>
+                <i class="fas fa-spinner fa-pulse"></i>&nbsp;Gerando</span>
               <span v-if="!generating">
-                <i class="fas fa-plus-circle"></i>&nbsp;Generate Recommendations</span>
+                <i class="fas fa-plus-circle"></i>&nbsp;Gerar Recomendações</span>
             </button>
           </div>
         </div>
@@ -45,21 +44,21 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>User</th>
-                <th class="text-center">Recommended</th>
-                <th class="text-center">Evaluated</th>
-                <th class="text-center">Accepted</th>
-                <th class="text-center">Actions</th>
+                <th>Usuário</th>
+                <th class="text-center">Rcomendado</th>
+                <th class="text-center">Avaliado</th>
+                <th class="text-center">Aceita</th>
+                <th class="text-center">Ações</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(recommendation, index) in recommendations" :key="index">
                 <td><img class="rounded-circle img-fluid" width="35" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}
-                  <span class="badge badge-dark" v-if="recommendation.isNew">New</span>
+                  <span class="badge badge-dark" v-if="recommendation.isNew">Nova</span>
                 </td>
                 <td class="text-center">
-                  <button class="btn btn-success btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, true)" v-if="recommendation.recommendedTo === 'F'" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Follow</button>
-                  <button class="btn btn-danger btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, false)" v-if="recommendation.recommendedTo === 'U'" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Unfollow</button>
+                  <button class="btn btn-success btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, true)" v-if="recommendation.recommendedTo === 'F'" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Seguir</button>
+                  <button class="btn btn-danger btn-sm" v-on:click="showModalMessageRecommendedTo(recommendation, false)" v-if="recommendation.recommendedTo === 'U'" v-bind:disabled="recommendation.acceptanceDate || recommendation.cancelDate">Deixar de Seguir</button>
                 </td>
                 <td class="text-center">
                   <span class="badge badge-dark" v-if="recommendation.evaluationDate">{{recommendation.evaluationDate}}</span>
@@ -70,13 +69,13 @@
                   <span v-if="!recommendation.acceptanceDate">-</span>
                 </td>
                 <td class="text-center">
-                  <button class="btn btn-outline-danger btn-sm" v-on:click="showModalMessageRefuse(recommendation)" v-bind:disabled="recommendation.cancelDate">Refuse</button>
+                  <button class="btn btn-outline-danger btn-sm" v-on:click="showModalMessageRefuse(recommendation)" v-bind:disabled="recommendation.cancelDate">Recusar</button>
                   <button class="btn btn-outline-primary btn-sm" v-on:click="showModalEvaluation(recommendation)" v-bind:disabled="recommendation.loadingEvaluate">
                     <span v-if="recommendation.loadingEvaluate">
-                      <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading</span>
-                    <span v-if="!recommendation.loadingEvaluate">Evaluate</span>
+                      <i class="fas fa-spinner fa-pulse"></i>&nbsp;Carregando</span>
+                    <span v-if="!recommendation.loadingEvaluate">Avaliar</span>
                   </button>
-                  <button class="btn btn-outline-secondary btn-sm" v-on:click="showModalDetails(recommendation)">Details</button>
+                  <button class="btn btn-outline-secondary btn-sm" v-on:click="showModalDetails(recommendation)">Detalhes</button>
                 </td>
               </tr>
             </tbody>
@@ -88,9 +87,9 @@
               </tr>
               <tr v-if="recommendations == 0">
                 <td colspan="6" class="text-center">
-                  <em class="text-muted" v-if="!loading">Without recommendations.</em>
+                  <em class="text-muted" v-if="!loading">Sem recomendações.</em>
                   <span v-if="loading">
-                    <i class="fas fa-spinner fa-pulse fa-2x align-middle"></i>&nbsp;Loading
+                    <i class="fas fa-spinner fa-pulse fa-2x align-middle"></i>&nbsp;Carregando
                   </span>
                 </td>
               </tr>
@@ -103,7 +102,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">How do you Evaluate the recommendation
+            <h5 class="modal-title" id="exampleModalLabel">Como você avalia a recomendação
               <b>{{recommendation.user.name}}</b>?
             </h5>
           </div>
@@ -123,11 +122,11 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
             <button type="button" class="btn btn-primary" v-on:click="saveEvaluation()" v-bind:disabled="!evaluationValidated || loadingEvaluation">
               <span v-if="loadingEvaluation">
-                <i class="fas fa-spinner fa-pulse"></i>&nbsp;Saving</span>
-              <span v-if="!loadingEvaluation">Save Evaluation</span>
+                <i class="fas fa-spinner fa-pulse"></i>&nbsp;Salvando</span>
+              <span v-if="!loadingEvaluation">Salvar avaliação</span>
             </button>
           </div>
         </div>
@@ -227,9 +226,21 @@ export default {
           this.getAll();
         });
     },
+    startTimeRequest: function() {
+      var i = 0;
+      var interval = setInterval(() => {
+        var time = new Date(i++ * 1000);
+
+        if (time.getSeconds() >= 30 && time.getMinutes() == 0) {
+          this.message.info = "Quase terminando, os dados estão sendo analisados."
+        }
+      }, 1000);
+    },
     generate: function() {
       if (!this.intructionsRequired) {
         this.generating = true;
+
+        var timeRequest = this.startTimeRequest();
 
         this.$http
           .get(this.$APIUri("/recommendations/generate"))
@@ -244,6 +255,7 @@ export default {
           .finally(() => {
             this.getAll();
             this.generating = false;
+            clearInterval(timeRequest);
           });
       }
     },
@@ -463,9 +475,9 @@ export default {
     showModalMessageRefuse: function(recommendation) {
       this.buttonYesMessage = true;
       this.recommendation = recommendation;
-      this.modal.title = "Refuse Recommendation";
+      this.modal.title = "Recusar Recomendação";
       this.modal.message =
-        "Do you really want to refuse the recommendation " +
+        "Deseja realmente recusar a recomendação " +
         recommendation.user.name +
         "?";
       this.modal.callback = this.refuse;
@@ -474,9 +486,9 @@ export default {
     },
     showModalMessageEmptyRecommendations: function() {
       this.buttonYesMessage = false;
-      this.modal.title = "Hello";
+      this.modal.title = "Olá";
       this.modal.message =
-        "Have you finished your interactions? If yes send an e-mail to paulo.prsdesouza@gmail.com to notify him. Soon you will receive an email to notify you that recommendations have been generated. Thank you.";
+        "Você terminou suas interações? Se sim, envie um e-mail para paulo.prsdesouza@gmail.com para notificá-lo. Em breve, você receberá um e-mail para notificá-lo de que as recomendações foram geradas. Obrigado.";
 
       $("#modalMessage").modal("show");
     },
@@ -495,7 +507,7 @@ export default {
       }
 
       this.modal.message =
-        "Do you really want to " +
+        "Você realmente quer " +
         typeRecommendation +
         " " +
         recommendation.user.name +

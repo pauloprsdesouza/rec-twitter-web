@@ -13,10 +13,10 @@
                         </a>
                     </li>
                     <li class="nav-item" :class="{'active': linkActive('/recommendations')}">
-                        <a class="nav-link" href="/recommendations">Recommendations</a>
+                        <a class="nav-link" href="/recommendations">Recomendações</a>
                     </li>
                     <li class="nav-item" :class="{'active': linkActive('/about')}">
-                        <a class="nav-link" href="/about">About</a>
+                        <a class="nav-link" href="/about">Sobre</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav my-2 my-lg-0">

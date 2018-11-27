@@ -8,8 +8,8 @@
       <div class="banner-body">
         <a class="btn btn-primary btn-lg" :href="this.$APIUri('/users/signin')" v-bind:disabled="loading" v-on:click="login()">
           <span v-if="loading">
-            <i class="fas fa-spinner fa-pulse"></i>&nbsp;Loading</span>
-          <span v-if="!loading"> Login Twitter</span>
+            <i class="fas fa-spinner fa-pulse"></i>&nbsp;Carregando</span>
+          <span v-if="!loading">Login Twitter</span>
         </a>
         <a class="btn btn-secondary btn-lg" href="/instructions" target="_blank">Instruções do Experimento
         </a>

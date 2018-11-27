@@ -5,7 +5,7 @@
                 <partial-instructions></partial-instructions>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        <span>Close</span>
+                        <span>Fechar</span>
                     </button>
                 </div>
             </div>

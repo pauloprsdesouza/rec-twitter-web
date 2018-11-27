@@ -19,22 +19,22 @@
                         <li class="list-group-item">
                             <i class="fas fa-check" v-if="recommendation.toFollow"></i>
                             <i class="fas fa-times" v-if="!recommendation.toFollow"></i>
-                            Recommended to:
+                            Recomendado para:
                             <span class="badge badge-success" v-if="recommendation.recommendedTo === 'F'" v-bind:disabled="recommendation.acceptanceDate">Follow</span>
                             <span class="badge badge-danger" v-if="recommendation.recommendedTo === 'U'" v-bind:disabled="recommendation.acceptanceDate">Unfollow</span>
                         </li>
                         <li class="list-group-item">
                             <i class="fab fa-twitter"></i> Total posts: {{recommendation.totalPosts}}</li>
                         <li class="list-group-item">
-                            <i class="far fa-hand-pointer"></i> You interact with: {{calculatePercentual(recommendation.totalInteractions)}}%</li>
+                            <i class="far fa-hand-pointer"></i> Você interagiu com: {{calculatePercentual(recommendation.totalInteractions)}}%</li>
                         <li class="list-group-item">
-                            <i class="far fa-thumbs-up"></i> Percentage of interesting content to you: {{recommendation.totalPreferences*100}}%</li>
+                            <i class="far fa-thumbs-up"></i> Percentual de contéudo publicado de seu interesse: {{recommendation.totalPreferences*100}}%</li>
                             <li class="list-group-item">
-                            <i class="far fa-calendar-alt"></i> Registered in: {{recommendation.registrationDate}}</li>
+                            <i class="far fa-calendar-alt"></i> Registrado em: {{recommendation.registrationDate}}</li>
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@
         </div>
         <div class="card-body">
             <p v-if="globalization.en" class="lead text-justify">
-                We developed a
+                Was developed a
                 <mark>
                     <i>recommendation system</i>
                 </mark> in order to suggest accounts to be 
@@ -38,7 +38,7 @@
                 <mark>analyze the interactions</mark> with the tweets received on your timeline. Hence some criteria are required to realize this experiment such as shown below:
             </p>
             <p v-if="globalization.pt" class="lead text-justify">
-                Nós desenvolvemos um
+                Foi desenvolvido um
                 <mark>
                     <i>sistema de recomendação</i>
                 </mark> que sugere contas para serem
@@ -46,7 +46,7 @@
                     <i>seguidas</i>
                 </mark> e outras para serem
                 <mark>
-                    <i>deixadas de seguir</i>
+                    <i>descontinuadas</i>
                 </mark>. Esperamos assim que você leia na sua timeline apenas informação que seja relevante ou do seu interesse, mas que você não tenha que realizar o filtro manualmente.
             </p>
             <p v-if="globalization.pt" class="lead text-justify">

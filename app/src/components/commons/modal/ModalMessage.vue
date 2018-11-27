@@ -11,11 +11,11 @@
                     {{message}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" v-on:click="no()">Close</button>
+                    <button type="button" class="btn btn-secondary" v-on:click="no()">Fechar</button>
                     <button type="button" class="btn btn-primary" v-on:click="yes()" v-bind:disabled="loading" v-if="visibleYes">
                         <span v-if="loading">
-                            <i class="fas fa-spinner fa-pulse"></i>&nbsp;Saving</span>
-                        <span v-if="!loading">Yes</span>
+                            <i class="fas fa-spinner fa-pulse"></i>&nbsp;Salvando</span>
+                        <span v-if="!loading">Sim</span>
                     </button>
                 </div>
             </div>

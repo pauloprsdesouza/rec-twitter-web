@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarTogglerDemo03" v-if="currentRoute != '/instructions'">
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-toggle="modal" data-target="#modalInstructions">Instructions
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#modalInstructions">Instruções
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>
