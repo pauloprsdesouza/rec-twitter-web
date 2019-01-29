@@ -44,7 +44,6 @@ export default {
     },
     current: function(page) {
       this.pagination.page = page;
-
       this.update();
     }
   },

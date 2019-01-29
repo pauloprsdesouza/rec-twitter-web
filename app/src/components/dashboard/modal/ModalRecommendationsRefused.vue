@@ -18,7 +18,7 @@
                             <thead>
                                 <tr>
                                     <th>Usuário</th>
-                                    <th class="text-center">Recomendado</th>
+                                    <th class="text-center">Recomendado para</th>
                                     <th class="text-center">Data</th>
                                     <th class="text-center">Ação</th>
                                 </tr>
@@ -59,7 +59,7 @@
                 </div>
             </div>
         </div>
-        <modal-message v-bind:title="modalMessage.title" v-bind:callback-yes="modalMessage.callbackYes" v-bind:callback-no="modalMessage.callbackNo" v-bind:message="modalMessage.message" v-bind:loading="loadingRecover"></modal-message>
+        <modal-message v-bind:title="modalMessage.title" v-bind:callback-yes="modalMessage.callbackYes" v-bind:callback-no="modalMessage.callbackNo" v-bind:message="modalMessage.message" v-bind:loading="loadingRecover" v-bind:visible-yes="true"></modal-message>
     </div>
 </template>
 
@@ -141,14 +141,14 @@ export default {
     showModalMessageConfirmation: function(recommendation) {
       this.recommendation = recommendation;
 
-      this.modalMessage.title = "Recover recommendation ";
+      this.modalMessage.title = "Recuperar recomendaçãos";
       this.modalMessage.callbackYes = this.recoverRecommendation;
       this.modalMessage.callbackNo = this.dismissModalMessage;
 
       this.modalMessage.message =
-        "Do you really want to recover " +
+        "Você realmente deseja recuperar a conta " +
         recommendation.user.name +
-        " to receive recommendations in the future?";
+        " para receber recomendações no futuro?";
 
       $("#modalMessage").modal("show");
     }

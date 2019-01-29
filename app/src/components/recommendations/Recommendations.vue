@@ -45,9 +45,9 @@
             <thead>
               <tr>
                 <th>Usuário</th>
-                <th class="text-center">Rcomendado</th>
-                <th class="text-center">Avaliado</th>
-                <th class="text-center">Aceita</th>
+                <th class="text-center">Rcomendado para</th>
+                <th class="text-center">Avaliado em</th>
+                <th class="text-center">Aceita em</th>
                 <th class="text-center">Ações</th>
               </tr>
             </thead>
@@ -62,7 +62,7 @@
                 </td>
                 <td class="text-center">
                   <span class="badge badge-dark" v-if="recommendation.evaluationDate">{{recommendation.evaluationDate}}</span>
-                  <span v-if="!recommendation.evaluationDate">-</span>
+                  <span class="badge badge-warning" v-if="!recommendation.evaluationDate" data-toggle="tooltip" data-placement="bottom" title="Avalie esta recomendação clicando em avaliar.">Falta avaliar</span>
                 </td>
                 <td class="text-center">
                   <span class="badge badge-dark" v-if="recommendation.acceptanceDate">{{recommendation.acceptanceDate}}</span>
@@ -80,9 +80,9 @@
               </tr>
             </tbody>
             <tfoot>
-              <tr v-if="recommendations > 0">
+              <tr>
                 <td colspan="6">
-                  <pagination-component :update="getAll" :current-pagination="pagination"></pagination-component>
+                  <pagination-component :update="getAll" v-bind:current-pagination="pagination"></pagination-component>
                 </td>
               </tr>
               <tr v-if="recommendations == 0">
@@ -261,6 +261,9 @@ export default {
     },
     getAll: function(filter) {
       this.loading = true;
+      
+      this.clearMessage();
+
       this.$http
         .post(this.$APIUri("/recommendations/getAll"), {
           pagination: this.pagination,
@@ -349,9 +352,7 @@ export default {
         .then(response => response.json())
         .then(message => {
           this.message.info = message;
-
-          var index = this.recommendations.indexOf(this.recommendation);
-          this.recommendations.splice(index, 1);
+          this.recommendation.cancelDate = new Date();
         })
         .catch(reseponse => response.json())
         .then(message => {

@@ -18,7 +18,7 @@
                             <thead>
                                 <tr>
                                     <th>Usuário</th>
-                                    <th class="text-center">Recomendado</th>
+                                    <th class="text-center">Recomendado para</th>
                                     <th class="text-center">Data</th>
                                 </tr>
                             </thead>

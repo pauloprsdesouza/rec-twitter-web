@@ -9,6 +9,7 @@ import Unauthorized from '@/components/error-pages/Unauthorized'
 import PageNotFound from '@/components/error-pages/PageNotFound'
 import PageServerError from '@/components/error-pages/PageServerError'
 import InstructionsBlankPage from '@/components/instructions/InstructionsBlankPage'
+import Evaluation from '@/components/evaluations/Evaluation'
 
 Vue.use(Router)
 
@@ -58,6 +59,11 @@ export default new Router({
       path: '/instructions',
       name: 'InstructionsBlankPage',
       component: InstructionsBlankPage
+    },
+    {
+      path: '/evaluations',
+      name: 'EvaluationPage',
+      component: Evaluation
     }
   ]
 })

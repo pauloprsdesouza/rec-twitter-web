@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <header v-if="currentRoute != '/resume'">
+    <header v-if="currentRoute != '/resume' && currentRoute != '/evaluations'">
       <nav-bar-portal></nav-bar-portal>
       <nav-bar-logged :user="user"></nav-bar-logged>
     </header>

@@ -18,13 +18,13 @@
     </div>
     <div class="row justify-content-center">
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-sm-3">
-        <button id="btnPopoverDashboard" class="btn btn-primary btn-lg btn-block pt-3 pb-3" v-on:click="updateInformations()" v-bind:disabled="loading || updating" data-container="body" data-toggle="popover" data-placement="top" data-content="Hello, welcome to Rectwitter click here to begin.">
+        <button id="btnPopoverDashboard" class="btn btn-primary btn-lg btn-block pt-3 pb-3" v-on:click="updateInformations()" v-bind:disabled="loading || updating" data-container="body" data-toggle="popover" data-placement="top" data-content="Bem-vindo! clique aqui para iniciar.">
           <span v-if="!loading && updating">
-            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Atualizando</span>
+            <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Baixando</span>
           <span v-if="!updating && loading">
             <i class="fas fa-spinner fa-pulse fa-3x align-middle"></i>&nbsp;Carregando</span>
           <span v-if="!loading && !updating">
-            <i class="fas fa-cloud-download-alt fa-3x align-middle"></i>&nbsp;Atualizar tweets</span>
+            <i class="fas fa-cloud-download-alt fa-3x align-middle"></i>&nbsp;Baixar tweets</span>
         </button>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-sm-3">
@@ -138,32 +138,43 @@
         <words-cloud :key-words="words" :text="textEmptyTweet" :loading="loading || updating"></words-cloud>
       </div>
     </div>
+    <modal-message v-bind:title="modal.title" v-bind:message="modal.message"></modal-message>
+    <modal-register-email :user="userData"></modal-register-email>
     <modal-recommendations-refused></modal-recommendations-refused>
     <modal-recommendations-accepted></modal-recommendations-accepted>
+    <modal-recommendations-not-evaluated :recommendations-not-evaluated="recommendationsNotEvaluated"></modal-recommendations-not-evaluated>
   </div>
 </template>
 
 <script>
+import ModalMessage from "@/components/commons/modal/ModalMessage";
 import WordsCloud from "@/components/commons/WordsCloud";
 import ModalRecommendationsRefused from "@/components/dashboard/modal/ModalRecommendationsRefused";
 import ModalRecommendationsAccepted from "@/components/dashboard/modal/ModalRecommendationsAccepted";
+import ModalRecommendationsNotEvaluated from "@/components/dashboard/modal/ModalRecommendationsNotEvaluated";
+import ModalRegisterEmail from "@/components/dashboard/modal/ModalRegisterEmail";
 
 export default {
   name: "Dashboard",
   data() {
     return {
-      userData: {},
+      userData: { email: {} },
       loading: false,
       updating: false,
       message: { error: null, info: null },
       words: [],
-      textEmptyTweet: ""
+      textEmptyTweet: "",
+      recommendationsNotEvaluated: [],
+      modal: { message: {}, title: {} }
     };
   },
   components: {
+    ModalMessage,
     WordsCloud,
     ModalRecommendationsRefused,
-    ModalRecommendationsAccepted
+    ModalRecommendationsAccepted,
+    ModalRecommendationsNotEvaluated,
+    ModalRegisterEmail
   },
   methods: {
     clearMessage: function() {
@@ -179,6 +190,22 @@ export default {
           this.userData = json.data;
           this.words = json.words;
 
+          if (json.requiredEmail) {
+            $("#modalRegisterEmail").modal("show");
+          }
+
+          if (json.recommendationsNotEvaluated.length > 0) {
+            this.recommendationsNotEvaluated = json.recommendationsNotEvaluated;
+            $("#modalRecommendationsNotEvaluated").modal("show");
+          }
+
+          if (json.menssageInteractionAndFollowings) {
+            this.modal.title = "Requisitos mínimos para gerar as recomendações";
+            this.modal.message = json.menssageInteractionAndFollowings;
+
+            $("#modalMessage").modal("show");
+          }
+
           if (this.userData.totalTweets == 0) {
             this.textEmptyTweet =
               "Update your information for generating keywords.";
@@ -190,7 +217,7 @@ export default {
         })
         .catch(response => response.json())
         .then(message => {
-            this.message.error = message;
+          this.message.error = message;
         })
         .finally(() => {
           this.loading = false;
@@ -206,7 +233,7 @@ export default {
         })
         .catch(response => response.json())
         .then(message => {
-            this.message.error = message;
+          this.message.error = message;
         })
         .finally(() => {
           this.updating = false;
