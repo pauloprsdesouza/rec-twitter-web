@@ -49,7 +49,7 @@ export default {
   methods: {
       calculatePercentual:function(value){
           var percent = (value / this.recommendation.totalPosts*100);
-          return Math.round(percent * 100) / 100;
+          return (Math.round(percent * 100) / 100).toFixed(2);;
       }
   }
 };

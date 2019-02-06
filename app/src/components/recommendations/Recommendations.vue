@@ -53,7 +53,7 @@
             </thead>
             <tbody>
               <tr v-for="(recommendation, index) in recommendations" :key="index">
-                <td><img class="rounded-circle img-fluid" width="35" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}
+                <td><img class="rounded-circle img-fluid" width="35" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}&nbsp;({{recommendation.user.screenName}})
                   <span class="badge badge-dark" v-if="recommendation.isNew">Nova</span>
                 </td>
                 <td class="text-center">
@@ -246,6 +246,7 @@ export default {
           .get(this.$APIUri("/recommendations/generate"))
           .then(response => response.json())
           .then(message => {
+            this.clearMessage();
             this.message.info = message;
           })
           .catch(response => response.json())
@@ -261,8 +262,6 @@ export default {
     },
     getAll: function(filter) {
       this.loading = true;
-      
-      this.clearMessage();
 
       this.$http
         .post(this.$APIUri("/recommendations/getAll"), {

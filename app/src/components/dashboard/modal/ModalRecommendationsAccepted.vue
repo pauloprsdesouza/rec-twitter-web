@@ -26,8 +26,8 @@
                                 <tr v-for="recommendation in recommendations" :key="recommendation.id">
                                     <td><img class="rounded-circle img-fluid" width="35" :src="recommendation.user.profileImageUrl" /> {{recommendation.user.name}}</td>
                                     <td class="text-center">
-                                        <span class="badge badge-success" v-if="recommendation.toFollow">Seguir</span>
-                                        <span class="badge badge-danger" v-if="!recommendation.toFollow">Deixar de Seguir</span>
+                                        <span class="badge badge-success" v-if="recommendation.recommendedTo == 'F'">Seguir</span>
+                                        <span class="badge badge-danger" v-if="recommendation.recommendedTo == 'U'">Deixar de Seguir</span>
                                     </td>
                                     <td class="text-center">{{recommendation.acceptanceDate}}</td>
                                 </tr>
