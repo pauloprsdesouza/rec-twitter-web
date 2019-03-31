@@ -3,6 +3,14 @@
     <div class="card">
       <div class="card-header">
         <b>Geral</b>
+        &nbsp;
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-secondary" v-on:click="getEvaluations(2)">1-2</button>
+          <button type="button" class="btn btn-secondary" v-on:click="getEvaluations(3)">1-3</button>
+          <button type="button" class="btn btn-secondary" v-on:click="getEvaluations(4)">1-4</button>
+          <button type="button" class="btn btn-secondary" v-on:click="getEvaluations(5)">1-5</button>
+          <button type="button" class="btn btn-secondary" v-on:click="getEvaluations(6)">1-6</button>
+        </div>
       </div>
       <div class="card-body">
         <ul class="list-group">
@@ -179,7 +187,7 @@
             >{{evaluations.precisionAt1}}</span>
             <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
           </li>
-         <li class="list-group-item d-flex justify-content-between align-items-center">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
             Prec@2
             <span
               v-if="!loading"
@@ -188,117 +196,46 @@
             <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            Prec@3
+            Map@1
             <span
               v-if="!loading"
               class="badge badge-secondary badge-pill"
-            >{{evaluations.precisionAt3}}</span>
+            >{{evaluations.mapAt1}}</span>
             <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            Map@3
-            <span v-if="!loading" class="badge badge-secondary badge-pill">{{evaluations.map}}</span>
+            Map@2
+            <span
+              v-if="!loading"
+              class="badge badge-secondary badge-pill"
+            >{{evaluations.mapAt2}}</span>
             <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
           </li>
         </ul>
-      </div>
-    </div>
-
-    <div class="card mt-4">
-      <div class="card-header">
-        <b>Análise Por Usuário</b>
-      </div>
-      <div class="card-body">
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Nome</th>
-                <th>Total Offline</th>
-                <th>Relevantes</th>
-                <th>Novas Offline</th>
-                <th>Iguais Online</th>
-                <th>Precisão</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(evaluation, index) in evaluations.perUser" :key="index">
-                <td>{{evaluation.user.id}}</td>
-                <td>{{evaluation.user.name}}&nbsp;({{evaluation.user.screenName}})</td>
-                <td>{{evaluation.total}}</td>
-                <td>{{evaluation.relevants}}</td>
-                <td>{{evaluation.totalNewRec}}</td>
-                <td>{{evaluation.totalEqualRec}}</td>
-                <td>{{evaluation.precision}}</td>
-                <td>
-                  <span v-if="evaluation.status == 'X'" class="badge badge-danger">Com Limitação</span>
-                  <span
-                    v-if="evaluation.status == 'S'"
-                    class="badge badge-primary"
-                  >Sem Recomendações</span>
-                  <span
-                    v-if="evaluation.status == 'OK'"
-                    class="badge badge-success"
-                  >Com Recomendações</span>
-                </td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr v-if="loading" class="text-center">
-                <td colspan="6">
-                  <span>Carregando</span>&nbsp;
-                  <i class="fas fa-spinner fa-pulse align-middle"></i>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import BarChart from "@/components/commons/BarChart";
-import AreaChart from "@/components/commons/AreaChart";
-import AreaChartInteractionsGeneral from "@/components/commons/AreaChartInteractionsGeneral";
-import AreaChartPreferencesGeneral from "@/components/commons/AreaChartPreferencesGeneral";
-
-import AreaChartFamiliarity from "@/components/commons/AreaChartFamiliarity";
-import AreaChartPrecision from "@/components/commons/AreaChartPrecision";
-import AreaChartSatisfaction from "@/components/commons/AreaChartSatisfaction";
-
 export default {
   data() {
     return {
-      evaluations: { dataGraph: Object },
       loading: Boolean,
-      message: { error: null, info: null }
+      message: { error: null, info: null },
+      evaluations: {}
     };
   },
-  components: {
-    BarChart,
-    AreaChart,
-    AreaChartInteractionsGeneral,
-    AreaChartPreferencesGeneral,
-    AreaChartFamiliarity,
-    AreaChartPrecision,
-    AreaChartSatisfaction
-  },
+  components: {},
   methods: {
-    getEvaluations() {
+    getEvaluations(rule) {
       this.loading = true;
 
       this.$http
-        .get(this.$APIUri("/evaluations/generate-offline"))
+        .get(this.$APIUri("/evaluations/generate-offline-rules?rule=" + rule))
         .then(response => response.json())
         .then(json => {
           this.evaluations = json;
-          this.evaluations.perUser.slice().sort(function(a, b) {
-            return a.precision - b.precision;
-          });
         })
         .catch(reseponse => response.json())
         .then(message => {
@@ -322,7 +259,7 @@ export default {
     }
   },
   mounted() {
-   this.getEvaluations();
+    this.getEvaluations(2);
   }
 };
 </script>

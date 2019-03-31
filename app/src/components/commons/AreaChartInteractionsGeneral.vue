@@ -22,7 +22,11 @@ export default {
 
       var myConfig = {
         type: "area",
-        legend: {},
+        legend: {
+          layout: "1x3",
+          x: "15%",
+          y: "2%"
+        },
         plot: {
           aspect: "spline",
           animation: {
@@ -63,18 +67,20 @@ export default {
             alpha: 1
           },
           item: {
-            color: colors.grayDark
+            color: colors.grayDark,
+            "font-size": 14
           },
           labels: [1, 2, 3, 4, 5],
           label: {
             text: "Ratings",
-            fontColor: "#616161"
+            fontColor: "#616161",
+            "font-size": 14
           }
         },
         scaleY: {
           lineColor: colors.gray,
           lineWidth: "1px",
-          step: 1.0,
+          step: 0.15,
           tick: {
             lineColor: "#C7C7C7",
             lineWidth: "1px"
@@ -85,41 +91,43 @@ export default {
             alpha: 1
           },
           item: {
-            color: colors.grayDark
+            color: colors.grayDark,
+            "font-size": 14
           },
           label: {
             text: "Interação",
-            fontColor: "#616161"
+            fontColor: "#616161",
+            "font-size": 14
           }
         },
         series: [
           {
             values: this.dataGraph.question1,
-            lineColor: "#332FB2",
+            lineColor: "#4561c9",
             lineWidth: "2px",
-            backgroundColor: "#332FB2",
+            backgroundColor: "#4561c9",
             marker: {
-              backgroundColor: "#332FB2"
+              backgroundColor: "#4561c9"
             },
             text: "Precisão"
           },
           {
             values: this.dataGraph.question2,
-            lineColor: "#FF5B00",
+            lineColor: "#d23622",
             lineWidth: "2px",
-            backgroundColor: "#FF5B00",
+            backgroundColor: "#d23622",
             marker: {
-              backgroundColor: "#FF5B00"
+              backgroundColor: "#d23622"
             },
             text: "Familiaridade"
           },
           {
             values: this.dataGraph.question3,
-            lineColor: "#3DB220",
+            lineColor: "#2e9722",
             lineWidth: "2px",
-            backgroundColor: "#3DB220",
+            backgroundColor: "#2e9722",
             marker: {
-              backgroundColor: "#3DB220"
+              backgroundColor: "#2e9722"
             },
             text: "Satisfação"
           }

@@ -22,7 +22,11 @@ export default {
 
       var myConfig = {
         type: "area",
-        legend: {},
+        legend: {
+          layout:"1x1",
+          x: "35%",
+          y: "2%"
+        },
         plot: {
           aspect: "spline",
           animation: {
@@ -74,7 +78,7 @@ export default {
         scaleY: {
           lineColor: colors.gray,
           lineWidth: "1px",
-          step: 100,
+          step: 10,
           tick: {
             lineColor: "#C7C7C7",
             lineWidth: "1px"
@@ -95,11 +99,11 @@ export default {
         series: [
           {
             values: this.dataGraph.question1,
-            lineColor: "#332FB2",
+            lineColor: "#4561c9",
             lineWidth: "2px",
-            backgroundColor: "#332FB2",
+            backgroundColor: "#4561c9",
             marker: {
-              backgroundColor: "#332FB2"
+              backgroundColor: "#4561c9"
             },
             text: "Precisão"
           }

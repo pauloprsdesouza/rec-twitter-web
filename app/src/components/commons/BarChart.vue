@@ -18,25 +18,50 @@ export default {
       var labelsUsers = [];
 
       this.dataGraph.values.forEach((item, index) => {
-          var text = "U"
-          labelsUsers.push(text.concat(index+1));
+        var text = "U";
+        labelsUsers.push(text.concat(index + 1));
       });
 
       var myConfig = {
         type: "bar",
+        plot: {
+          "value-box": {
+            "font-size": 16
+          }
+        },
         plotarea: {
           adjustLayout: true
         },
         scaleY: {
           label: {
-            text: "Precisão"
+            text: "Frequência",
+            "font-size": 18,
+            fontColor: "#555555",
+          },
+          item: {
+            "font-size": 18,
+            fontColor: "#555555",
           }
         },
         scaleX: {
-          label: {
-            text: "Recomendações Por Usuários"
+          item: {
+            "font-size": 18,
+            fontColor: "#555555",
           },
-          labels: labelsUsers
+          label: {
+            text: "Precisão",
+             "font-size": 18,
+             fontColor: "#555555",
+          },
+          labels: [
+            "< 0.52",
+            "0.52-0.58",
+            "0.58-0.65",
+            "0.65-0.71",
+            "0.71-0.77",
+            "0.77-0.83",
+            "> 0.83"
+          ]
         },
         series: [
           {

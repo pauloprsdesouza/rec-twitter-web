@@ -10,11 +10,19 @@
             <b>Análise das Recomendações</b>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            Total de Recomendações
+            Total de Recomendações Iguais ao Método Online
             <span
               v-if="!loading"
               class="badge badge-primary badge-pill"
             >{{evaluations.totalRecommendations}}</span>
+            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Total de Novas Recomendações
+            <span
+              v-if="!loading"
+              class="badge badge-primary badge-pill"
+            >{{evaluations.totalNewRecommendations}}</span>
             <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -56,30 +64,6 @@
             <b>Análise das Recomendações Por Usuário</b>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            Total de Usuários Participantes
-            <span
-              v-if="!loading"
-              class="badge badge-primary badge-pill"
-            >{{evaluations.totalOfUsers}}</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Total de Usuários Com Recomendações
-            <span
-              v-if="!loading"
-              class="badge badge-primary badge-pill"
-            >{{evaluations.totalUserWithRecommendations}}&nbsp;&nbsp;({{calculatePercentualUsers(evaluations.totalUserWithRecommendations)}}%)</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Total de Usuários Com Limitação
-            <span
-              v-if="!loading"
-              class="badge badge-warning badge-pill"
-            >{{evaluations.totalUsersWithLimitations}}&nbsp;&nbsp;({{calculatePercentualUsers(evaluations.totalUsersWithLimitations)}}%)</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
             Média de Recomendações Por Usuário
             <span
               v-if="!loading"
@@ -109,28 +93,6 @@
               v-if="!loading"
               class="badge badge-secondary badge-pill"
             >{{evaluations.standardDeviationRecommendations}}</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-        </ul>
-
-        <ul class="list-group mt-4">
-          <li class="list-group-item list-group-item-primary">
-            <b>Análise dos Tweets</b>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Total de Tweets
-            <span
-              v-if="!loading"
-              class="badge badge-primary badge-pill"
-            >{{evaluations.totalTweets}}</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Total de Tweets com Interação
-            <span
-              v-if="!loading"
-              class="badge badge-primary badge-pill"
-            >{{evaluations.totalTweetsWithInteractions}}&nbsp;&nbsp;({{calculatePercentualTweets(evaluations.totalTweetsWithInteractions)}}%)</span>
             <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
           </li>
         </ul>
@@ -191,68 +153,6 @@
 
         <ul class="list-group mt-4">
           <li class="list-group-item list-group-item-primary">
-            <b>Total da avaliação por classificação</b>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Total de Recomendações Com Avaliação
-            <span
-              v-if="!loading"
-              class="badge badge-primary badge-pill"
-            >{{evaluations.totalRecommendationsEvaluated}}&nbsp;&nbsp;({{calculatePercentualRecommendations(evaluations.totalRecommendationsEvaluated)}}%)</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Total de Recomendações Sem Avaliação
-            <span
-              v-if="!loading"
-              class="badge badge-primary badge-pill"
-            >{{evaluations.totalRecommendationsNotEvaluated}}&nbsp;&nbsp;({{calculatePercentualRecommendations(evaluations.totalRecommendationsNotEvaluated)}}%)</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Classificação 1
-            <span
-              v-if="!loading"
-              class="badge badge-secondary badge-pill"
-            >{{evaluations.totalRecommendationsEvaluated1}}</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Classificação 2
-            <span
-              v-if="!loading"
-              class="badge badge-secondary badge-pill"
-            >{{evaluations.totalRecommendationsEvaluated2}}</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Classificação 3
-            <span
-              v-if="!loading"
-              class="badge badge-secondary badge-pill"
-            >{{evaluations.totalRecommendationsEvaluated3}}</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Classificação 4
-            <span
-              v-if="!loading"
-              class="badge badge-secondary badge-pill"
-            >{{evaluations.totalRecommendationsEvaluated4}}</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            Classificação 5
-            <span
-              v-if="!loading"
-              class="badge badge-secondary badge-pill"
-            >{{evaluations.totalRecommendationsEvaluated5}}</span>
-            <i v-if="loading" class="fas fa-spinner fa-pulse align-middle"></i>
-          </li>
-        </ul>
-
-        <ul class="list-group mt-4">
-          <li class="list-group-item list-group-item-primary">
             <b>Qualidade das Recomendações</b>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -304,98 +204,6 @@
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-12 col-sm-12">
-        <div class="card mt-4">
-          <div class="card-body">
-            <h5 class="card-title">Gráfico</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Precisão das recomendações por usuários</h6>
-            <bar-chart :data-graph="evaluations.dataGraph" :text="{ok:'ok'}" :loading="loading"></bar-chart>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card mt-4">
-      <div class="card-body">
-        <h5 class="card-title">Gráficos Frequência de resposta X Ratings</h5>
-        <div class="row">
-          <div class="col-md-12 col-sm-12">
-            <div class="card mt-4">
-              <div class="card-body">
-                <h5 class="card-title">Gráfico</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Frequência X Ratings</h6>
-                <area-chart
-                  :data-graph="evaluations.evaluationsPerQuestion"
-                  :name-chart="'area-chart-1'"
-                  :loading="loading"
-                ></area-chart>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4 col-sm-12">
-            <div class="card mt-4">
-              <div class="card-body">
-                <h5 class="card-title">Precisão</h5>
-                <area-chart-precision
-                  :data-graph="evaluations.evaluationsPerQuestion"
-                  :loading="loading"
-                ></area-chart-precision>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-12">
-            <div class="card mt-4">
-              <div class="card-body">
-                <h5 class="card-title">Familiaridade</h5>
-                <area-chart-familiarity
-                  :data-graph="evaluations.evaluationsPerQuestion"
-                  :loading="loading"
-                ></area-chart-familiarity>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-12">
-            <div class="card mt-4">
-              <div class="card-body">
-                <h5 class="card-title">Satisfação</h5>
-                <area-chart-satisfaction
-                  :data-graph="evaluations.evaluationsPerQuestion"
-                  :loading="loading"
-                ></area-chart-satisfaction>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6 col-sm-12">
-        <div class="card mt-4">
-          <div class="card-body">
-            <h5 class="card-title">Gráfico</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Interações X Ratings</h6>
-            <area-chart-interactions-general
-              :data-graph="evaluations.evaluationsInteractionsPerQuestion"
-              :loading="loading"
-            ></area-chart-interactions-general>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-12">
-        <div class="card mt-4">
-          <div class="card-body">
-            <h5 class="card-title">Gráfico</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Preferências X Ratings</h6>
-            <area-chart-preferences-general
-              :data-graph="evaluations.evaluationsPreferencesPerQuestion"
-              :loading="loading"
-            ></area-chart-preferences-general>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="card mt-4">
       <div class="card-header">
         <b>Análise Por Usuário</b>
@@ -407,8 +215,10 @@
               <tr>
                 <th>Id</th>
                 <th>Nome</th>
-                <th>Total de Recomendações</th>
-                <th>Recomendações Relevantes</th>
+                <th>Total Offline</th>
+                <th>Relevantes</th>
+                <th>Novas Offline</th>
+                <th>Iguais Online</th>
                 <th>Precisão</th>
                 <th>Status</th>
               </tr>
@@ -419,6 +229,8 @@
                 <td>{{evaluation.user.name}}&nbsp;({{evaluation.user.screenName}})</td>
                 <td>{{evaluation.total}}</td>
                 <td>{{evaluation.relevants}}</td>
+                <td>{{evaluation.totalNewRec}}</td>
+                <td>{{evaluation.totalEqualRec}}</td>
                 <td>{{evaluation.precision}}</td>
                 <td>
                   <span v-if="evaluation.status == 'X'" class="badge badge-danger">Com Limitação</span>
@@ -449,38 +261,21 @@
 </template>
 
 <script>
-import BarChart from "@/components/commons/BarChart";
-import AreaChart from "@/components/commons/AreaChart";
-import AreaChartInteractionsGeneral from "@/components/commons/AreaChartInteractionsGeneral";
-import AreaChartPreferencesGeneral from "@/components/commons/AreaChartPreferencesGeneral";
-
-import AreaChartFamiliarity from "@/components/commons/AreaChartFamiliarity";
-import AreaChartPrecision from "@/components/commons/AreaChartPrecision";
-import AreaChartSatisfaction from "@/components/commons/AreaChartSatisfaction";
-
 export default {
   data() {
     return {
-      evaluations: { dataGraph: Object },
       loading: Boolean,
-      message: { error: null, info: null }
+      message: { error: null, info: null },
+      evaluations: {}
     };
   },
-  components: {
-    BarChart,
-    AreaChart,
-    AreaChartInteractionsGeneral,
-    AreaChartPreferencesGeneral,
-    AreaChartFamiliarity,
-    AreaChartPrecision,
-    AreaChartSatisfaction
-  },
+  components: {},
   methods: {
     getEvaluations() {
       this.loading = true;
 
       this.$http
-        .get(this.$APIUri("/evaluations/generate"))
+        .get(this.$APIUri("/evaluations/generate-offline-cosine"))
         .then(response => response.json())
         .then(json => {
           this.evaluations = json;
@@ -510,7 +305,7 @@ export default {
     }
   },
   mounted() {
-    this.getEvaluations();
+   this.getEvaluations();
   }
 };
 </script>
