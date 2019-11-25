@@ -28,6 +28,12 @@
         </button>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-sm-3">
+         <button class="btn btn-primary btn-lg btn-block pt-3 pb-3" v-on:click="gerar()">
+          <span>
+            <i class="fas fa-cloud-download-alt fa-3x align-middle"></i>&nbsp;Gerar Recommendações</span>
+        </button>
+      </div>
+      <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 mb-sm-3">
         <button class="btn btn-success btn-lg btn-block pt-3 pb-3" data-toggle="modal" data-target="#modalRecommendationsAccepted">
           <i class="fas fa-check-circle fa-3x align-middle"></i>
           Aceitas
@@ -37,9 +43,9 @@
         <button class="btn btn-danger btn-lg btn-block pt-3 pb-3" data-toggle="modal" data-target="#modalRecommendationsRefused">
           <i class="fas fa-times-circle fa-3x align-middle"></i>&nbsp;Recusadas
         </button>
-      </div>
+      </div> -->
     </div>
-    <div class="card mb-3">
+    <!-- <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title">Overview</h5>
         <div class="row justify-content-center text-center">
@@ -129,15 +135,49 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="card">
+    <table class="table table-striped table-borderless">
+      <thead>
+        <tr>
+        <th>Id Original Rank</th>
+        <th>Total Likes</th>
+        <th>Total Retweets</th>
+        <th>Text</th>
+        <th>Who Posted</th>
+        <th>Total Followers</th>
+        <th>Total Mentions</th>
+        <th>Total Replies</th>
+        <th>Score Social Capital</th>
+        <th>Score Similarity</th>
+        <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="tweet in tweetsReRanked" :key="tweet.id">
+          <td>{{tweet.idRank}}</td>
+          <td>{{tweet.totalLikes}}</td>
+          <td>{{tweet.totalRetweets}}</td>
+          <td>{{tweet.text}}</td>
+          <td>{{tweet.whoPosted}}</td>
+          <td>{{tweet.followersWhoPosted}}</td>
+          <td>{{tweet.totalMentionsWhoPosted}}</td>
+          <td>{{tweet.totalRepliesWhoPosted}}</td>
+          <td>{{tweet.scoreSocialCapital}}</td>
+          <td>{{tweet.scoreCimilarity}}</td>
+          <td>{{tweet.score}}</td>
+        </tr>
+      </tbody>
+      
+    </table>
+
+    <!-- <div class="card">
       <div class="card-body">
         <h5 class="card-title">Frequência das palavras</h5>
         <h6 class="card-subtitle mb-2 text-muted">Palavras-chave dos Tweet extraídos da sua timeline para melhor entendimento do contexto abordado.</h6>
         <words-cloud :key-words="words" :text="textEmptyTweet" :loading="loading || updating"></words-cloud>
       </div>
-    </div>
+    </div> -->
     <modal-message v-bind:title="modal.title" v-bind:message="modal.message"></modal-message>
     <modal-register-email :user="userData"></modal-register-email>
     <modal-recommendations-refused></modal-recommendations-refused>
@@ -165,7 +205,8 @@ export default {
       words: [],
       textEmptyTweet: "",
       recommendationsNotEvaluated: [],
-      modal: { message: {}, title: {} }
+      modal: { message: {}, title: {} },
+      tweetsReRanked: []
     };
   },
   components: {
@@ -238,10 +279,24 @@ export default {
         .finally(() => {
           this.updating = false;
         });
+    },
+     gerar: function() {
+      this.$http
+        .get(this.$APIUri("/recommendations/generate"))
+        .then(response => response.json())
+        .then(json => {
+          this.tweetsReRanked = json.tweets;
+        })
+        .catch(response => response.json())
+        .then(message => {
+          this.message.error = message;
+        })
+        .finally(() => {
+        });
     }
   },
   mounted() {
-    this.getResume();
+   // this.getResume();
   }
 };
 </script>

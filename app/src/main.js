@@ -10,8 +10,8 @@ Vue.config.productionTip = false;
 Vue.use(VueResource)
 
 Vue.prototype.$APIUri = function (path) {
-  return 'http://nbcgib.uesc.br/rectwitter' + path;
-  //return 'http://localhost:8080' + path;
+  //return 'http://nbcgib.uesc.br/rectwitter' + path;
+  return 'http://localhost:8080' + path;
 }
 
 Vue.http.interceptors.push((request, response) => {
